@@ -324,6 +324,26 @@
       border-radius: var(--radius); overflow: hidden;
     }
     .proof-card img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; background: #222; }
+
+    /* VALUE BREAKDOWN */
+    .value-breakdown { padding: 72px 0; border-top: 1px solid var(--border); }
+    .value-breakdown h2 { font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 44px; }
+    .value-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 48px; }
+    .value-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px;
+    }
+    .value-header { margin-bottom: 16px; }
+    .value-header h4 { font-size: 16px; font-family: 'Anton', sans-serif; font-weight: 400; margin-bottom: 8px; }
+    .value-price { display: inline-block; background: rgba(249,79,6,.15); color: var(--orange); font-weight: 700; font-size: 14px; padding: 4px 12px; border-radius: 6px; }
+    .value-badge { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: rgba(74,222,128,.2); color: var(--green); padding: 2px 8px; border-radius: 4px; margin-left: 8px; box-shadow: 0 0 8px var(--green); animation: pulse-green 2s infinite; }
+    .value-badge.popular { background: rgba(74,222,128,.2); color: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse-green 2s infinite; }
+    .proof-card-review { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); line-height: 1.6; }
+    .value-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+    .value-total { text-align: center; padding: 32px; background: rgba(249,79,6,.06); border: 1px solid rgba(249,79,6,.2); border-radius: var(--radius); }
+    .value-total-text { font-size: 18px; color: var(--text); margin-bottom: 12px; }
+    .value-note { font-size: 16px; color: var(--text); margin-bottom: 24px; }
+    .value-total .btn-primary { margin-top: 12px; }
     .proof-card-info {
       padding: 16px 20px;
       display: flex; align-items: center; justify-content: space-between;
@@ -472,17 +492,7 @@
   </div>
 </section>
 
-<!-- BRANDS -->
-<section class="brands">
-  <div class="container">
-    <p class="brands-label">Brands scaling with the BEYOND Protocol</p>
-    <div class="brands-logos">
-      <img src="https://framerusercontent.com/images/1N0kY7W7vE8XGzZ1v7f3A7Y.png" alt="Brand 1" />
-      <img src="https://framerusercontent.com/images/8XGzZ1v7f3A7Y1N0kY7W7vE.png" alt="Brand 2" />
-      <img src="https://framerusercontent.com/images/f3A7Y1N0kY7W7vE8XGzZ1v7.png" alt="Brand 3" />
-    </div>
-  </div>
-</section>
+
 
 <!-- PROBLEM -->
 <section class="problem">
@@ -611,6 +621,7 @@
           <span class="proof-card-name">Charbel</span>
           <span class="proof-card-roas">5.2× ROAS</span>
         </div>
+        <p class="proof-card-review">"Went from struggling to consistent. The creative strategy changed everything. Finally understand what's actually working."</p>
       </div>
       <div class="proof-card">
         <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663384103223/fozbcQcjKTHKeIhU.png" alt="Anthony - $477.81/Day Results" />
@@ -618,14 +629,53 @@
           <span class="proof-card-name">Anthony</span>
           <span class="proof-card-roas">4.3× ROAS</span>
         </div>
+        <p class="proof-card-review">"The difference between guessing and having a real system. My CPAs dropped, my ROAS climbed. This is the real deal."</p>
       </div>
-      <div class="proof-card">
-        <img src="https://framerusercontent.com/images/v7f3A7Y1N0kY7W7vE8XGzZ1.png" alt="Client Result 3" />
-        <div class="proof-card-info">
-          <span class="proof-card-name">Skincare Scaling</span>
-          <span class="proof-card-roas">6.1× ROAS</span>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE BREAKDOWN -->
+<section class="value-breakdown">
+  <div class="container">
+    <p class="section-label">What You're Getting</p>
+    <h2>Here's What This Investment Includes</h2>
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-header">
+          <h4>Paid Ads Media Buying <span class="value-badge popular">(Most Popular)</span></h4>
+          <span class="value-price">$2,000/mo</span>
         </div>
+        <p>Pure, disciplined Meta media buying. Campaign structure, budget allocation, and bid strategy built around your specific margin targets — not vanity metrics.</p>
       </div>
+      <div class="value-card">
+        <div class="value-header">
+          <h4>Image Ads Creation</h4>
+          <span class="value-price">$1,000/mo</span>
+        </div>
+        <p>I personally build every image ad. Direct-response creatives engineered to stop the scroll and push qualified buyers to purchase.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-header">
+          <h4>Creative Strategy <span class="value-badge">(Most Valuable)</span></h4>
+          <span class="value-price">$3,000</span>
+        </div>
+        <p>The framework that ties everything together. This is the BEYOND Protocol — the system that makes your ads work post-Andromeda.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-header">
+          <h4>Product Page Optimization</h4>
+          <span class="value-price">$500-$1,000</span>
+        </div>
+        <p>Conversion optimization on your product pages to ensure the traffic we drive actually converts into customers.</p>
+      </div>
+    </div>
+    <div class="value-total">
+      <p class="value-total-text"><strong>Total Value: $6,500-$7,000+</strong></p>
+      <p class="value-note"><strong>Price Available on the Call</strong><br /><span style="font-size: 14px; color: var(--muted); font-style: italic;">(it's way less...)</span></p>
+      <a href="https://form.typeform.com/to/wV2XUEFS?utm_source=issamscales.com&utm_medium=value-section" class="btn-primary" target="_blank" rel="noopener">
+        Book My Free Strategy Call →
+      </a>
     </div>
   </div>
 </section>
@@ -713,11 +763,10 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© 2026 Issam Scales · Meta Performance ·
-    <a href="https://www.instagram.com/issam__ig/" target="_blank" rel="noopener">Instagram</a>
+  <p>© 2026 Issam Scales · Meta Ecom Performance ·
+    <a href="https://www.instagram.com/issam__ig/" target="_blank" rel="noopener">Let's talk!</a>
   </p>
 </footer>
 
 </body>
 </html>
-Landing Page Edits for Meta Update and $10,000/Month Offer - Manus
