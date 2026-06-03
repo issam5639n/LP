@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --bg:        #0a0b0e;
       --bg-card:   #111319;
@@ -25,9 +25,9 @@
       --radius:    14px;
       --max:       920px;
     }
-
+ 
     html { scroll-behavior: smooth; }
-
+ 
     body {
       background: var(--bg);
       color: var(--text);
@@ -36,17 +36,17 @@
       line-height: 1.65;
       -webkit-font-smoothing: antialiased;
     }
-
+ 
     h1,h2,h3,h4,h5 {
       font-family: 'Anton', sans-serif;
       line-height: 1.1;
       letter-spacing: .01em;
       font-weight: 400;
     }
-
+ 
     a { color: inherit; text-decoration: none; }
     img { display: block; max-width: 100%; }
-
+ 
     .container { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
     .tag {
       display: inline-flex; align-items: center; gap: 8px;
@@ -71,26 +71,8 @@
       margin-bottom: 20px;
     }
     .orange { color: var(--orange); }
-
-    /* GLOWING CIRCLES */
-    .glow-dot {
-      width: 8px; height: 8px; border-radius: 50%; display: inline-block;
-      position: relative;
-    }
-    .glow-dot.red { background: var(--orange); box-shadow: 0 0 10px var(--orange), 0 0 20px var(--orange); animation: pulse-red 2s infinite; }
-    .glow-dot.green { background: var(--green); box-shadow: 0 0 10px var(--green), 0 0 20px var(--green); animation: pulse-green 2s infinite; }
-    
-    @keyframes pulse-red {
-      0% { box-shadow: 0 0 5px var(--orange); }
-      50% { box-shadow: 0 0 15px var(--orange), 0 0 25px var(--orange); }
-      100% { box-shadow: 0 0 5px var(--orange); }
-    }
-    @keyframes pulse-green {
-      0% { box-shadow: 0 0 5px var(--green); }
-      50% { box-shadow: 0 0 15px var(--green), 0 0 25px var(--green); }
-      100% { box-shadow: 0 0 5px var(--green); }
-    }
-
+ 
+ 
     /* NAV */
     nav {
       position: sticky; top: 0; z-index: 100;
@@ -121,7 +103,7 @@
       display: inline-block; text-transform: uppercase;
     }
     .btn-cta:hover { opacity: .88; }
-
+ 
     /* ALERT BANNER */
     .alert-banner {
       background: rgba(249,79,6,.08); border-bottom: 1px solid rgba(249,79,6,.18);
@@ -137,7 +119,7 @@
       text-transform: uppercase;
     }
     .spots-left-link:hover { opacity: 0.9; }
-
+ 
     /* HERO */
     .hero { padding: 80px 0 72px; text-align: center; }
     .hero-eyebrow {
@@ -175,7 +157,7 @@
     }
     .hero-meta span { display: flex; align-items: center; gap: 5px; }
     .hero-meta span::before { content: '✓'; color: var(--green); font-weight: 700; }
-
+ 
     /* SOCIAL PROOF (brands) */
     .brands { padding: 36px 0 48px; border-top: 1px solid var(--border); }
     .brands-label {
@@ -192,7 +174,7 @@
       transition: opacity .2s; object-fit: contain;
     }
     .brands-logos img:hover { opacity: .75; }
-
+ 
     /* PROBLEM */
     .problem { padding: 72px 0; }
     .problem h2 { font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 12px; }
@@ -215,7 +197,7 @@
       font-size: 15px; color: var(--text); line-height: 1.65;
     }
     .problem-callout strong { color: var(--orange); }
-
+ 
     /* MECHANISM */
     .mechanism { padding: 72px 0; border-top: 1px solid var(--border); }
     .mechanism h2 { font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 10px; }
@@ -255,7 +237,7 @@
       padding: 2px 8px; border-radius: 4px;
     }
     .step p { font-size: 14px; color: var(--muted); line-height: 1.65; }
-
+ 
     /* CASE STUDY */
     .casestudy { padding: 72px 0; border-top: 1px solid var(--border); }
     .casestudy h2 { font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 10px; }
@@ -310,7 +292,7 @@
       border: 1px solid var(--border);
     }
     .cs-screenshot img { width: 100%; display: block; }
-
+ 
     /* SOCIAL PROOF RESULTS (under case study) */
     .proof-results { padding: 56px 0 72px; border-top: 1px solid var(--border); }
     .proof-results h2 { font-size: clamp(26px, 4vw, 38px); margin-bottom: 10px; }
@@ -324,7 +306,7 @@
       border-radius: var(--radius); overflow: hidden;
     }
     .proof-card img { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; background: #222; }
-
+ 
     /* VALUE BREAKDOWN */
     .value-breakdown { padding: 72px 0; border-top: 1px solid var(--border); }
     .value-breakdown h2 { font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 44px; }
@@ -334,9 +316,9 @@
       border-radius: var(--radius); padding: 28px;
     }
     .value-header { margin-bottom: 16px; }
-    .value-header h4 { font-size: 16px; font-family: 'Anton', sans-serif; font-weight: 400; margin-bottom: 8px; }
+    .value-header h4 { font-size: 16px; font-family: 'Anton', sans-serif; font-weight: 400; margin-bottom: 6px; }
     .value-price { display: inline-block; background: rgba(249,79,6,.15); color: var(--orange); font-weight: 700; font-size: 14px; padding: 4px 12px; border-radius: 6px; }
-    .value-badge { font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: rgba(74,222,128,.2); color: var(--green); padding: 2px 8px; border-radius: 4px; margin-left: 8px; box-shadow: 0 0 8px var(--green); animation: pulse-green 2s infinite; }
+    .value-badge { display: inline-block; font-family: 'Inter', sans-serif; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; background: rgba(74,222,128,.2); color: var(--green); padding: 2px 8px; border-radius: 4px; margin-bottom: 8px; box-shadow: 0 0 8px var(--green); animation: pulse-green 2s infinite; }
     .value-badge.popular { background: rgba(74,222,128,.2); color: var(--green); box-shadow: 0 0 8px var(--green); animation: pulse-green 2s infinite; }
     .proof-card-review { font-size: 13px; color: var(--muted); font-style: italic; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); line-height: 1.6; }
     .value-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
@@ -357,7 +339,7 @@
       color: var(--orange); font-size: 13px; font-weight: 700;
       padding: 4px 12px; border-radius: 6px;
     }
-
+ 
     /* FIT */
     .fit { padding: 72px 0; border-top: 1px solid var(--border); }
     .fit h2 { font-size: clamp(28px, 4.5vw, 44px); margin-bottom: 10px; }
@@ -377,7 +359,7 @@
     .fit-items { padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
     .fit-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text); line-height: 1.5; }
     .fit-icon { flex-shrink: 0; margin-top: 1px; font-size: 15px; }
-
+ 
     /* URGENCY */
     .urgency { padding: 72px 0; border-top: 1px solid var(--border); }
     .urgency-inner {
@@ -401,7 +383,7 @@
     }
     .scarcity-text h4 { font-family: 'Anton', sans-serif; font-weight: 400; font-size: 16px; margin-bottom: 4px; }
     .scarcity-text p { font-size: 13px; color: var(--muted); }
-
+ 
     /* GUARANTEE */
     .guarantee { padding: 72px 0; border-top: 1px solid var(--border); }
     .guarantee-inner {
@@ -413,18 +395,18 @@
     .guarantee-text h2 { font-size: clamp(22px, 3vw, 32px); margin-bottom: 14px; }
     .guarantee-text p { color: var(--muted); font-size: 15px; line-height: 1.7; margin-bottom: 12px; }
     .guarantee-text strong { color: var(--text); }
-
+ 
     /* FINAL CTA */
     .finalcta { padding: 100px 0; text-align: center; border-top: 1px solid var(--border); }
     .finalcta h2 { font-size: clamp(32px, 5vw, 52px); margin-bottom: 20px; }
     .finalcta h2 em { font-style: normal; color: var(--orange); }
     .finalcta-sub { font-size: 18px; color: var(--muted); max-width: 580px; margin: 0 auto 40px; }
     .finalcta-note { font-size: 12px; color: var(--muted); margin-top: 24px; }
-
+ 
     /* FOOTER */
     footer { padding: 48px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--muted); }
     footer a { color: var(--text); text-decoration: underline; text-underline-offset: 4px; }
-
+ 
     @media (max-width: 768px) {
       .hero { padding: 60px 0 48px; }
       .fit-grid { grid-template-columns: 1fr; }
@@ -442,13 +424,13 @@
   </style>
 </head>
 <body>
-
+ 
 <!-- ALERT BANNER -->
 <div class="alert-banner">
   ⚠ <strong>Meta's Andromeda update</strong> is wiping out brands with weak creatives. CPAs are rising fast. 
   <a href="https://form.typeform.com/to/wV2XUEFS?utm_source=issamscales.com&utm_medium=alert-banner" class="spots-left-link" target="_blank" rel="noopener">Only a few spots left this quarter</a>
 </div>
-
+ 
 <!-- NAV -->
 <nav>
   <div class="nav-inner">
@@ -461,7 +443,7 @@
     </a>
   </div>
 </nav>
-
+ 
 <!-- HERO -->
 <section class="hero">
   <div class="container">
@@ -491,9 +473,9 @@
     </div>
   </div>
 </section>
-
-
-
+ 
+ 
+ 
 <!-- PROBLEM -->
 <section class="problem">
   <div class="container">
@@ -522,7 +504,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- MECHANISM -->
 <section class="mechanism">
   <div class="container">
@@ -562,7 +544,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- CASE STUDY -->
 <section class="casestudy">
   <div class="container">
@@ -607,7 +589,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- SOCIAL PROOF RESULTS -->
 <section class="proof-results">
   <div class="container">
@@ -634,16 +616,17 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- VALUE BREAKDOWN -->
 <section class="value-breakdown">
   <div class="container">
     <p class="section-label">What You're Getting</p>
-    <h2>Here's What This Investment Includes</h2>
+    <h2>Here's What you will receive in value</h2>
     <div class="value-grid">
       <div class="value-card">
         <div class="value-header">
-          <h4>Paid Ads Media Buying <span class="value-badge popular">(Most Popular)</span></h4>
+          <h4>Paid Ads Media Buying</h4>
+          <span class="value-badge popular">(Most Popular)</span>
           <span class="value-price">$2,000/mo</span>
         </div>
         <p>Pure, disciplined Meta media buying. Campaign structure, budget allocation, and bid strategy built around your specific margin targets — not vanity metrics.</p>
@@ -657,8 +640,9 @@
       </div>
       <div class="value-card">
         <div class="value-header">
-          <h4>Creative Strategy <span class="value-badge">(Most Valuable)</span></h4>
-          <span class="value-price">$3,000</span>
+          <h4>Creative Strategy</h4>
+          <span class="value-badge">(Most Valuable)</span>
+          <span class="value-price">$3,000/mo</span>
         </div>
         <p>The framework that ties everything together. This is the BEYOND Protocol — the system that makes your ads work post-Andromeda.</p>
       </div>
@@ -671,21 +655,21 @@
       </div>
     </div>
     <div class="value-total">
-      <p class="value-total-text"><strong>Total Value: $6,500-$7,000+</strong></p>
-      <p class="value-note"><strong>Price Available on the Call</strong><br /><span style="font-size: 14px; color: var(--muted); font-style: italic;">(it's way less...)</span></p>
+      <p class="value-total-text"><strong>Total Value: $6,500-$7,000+/mo</strong></p>
+      <p class="value-note"><strong>Price Available on the Call</strong><br /><span style="font-size: 14px; color: var(--muted); font-style: italic;">by the way...it's way less</span></p>
       <a href="https://form.typeform.com/to/wV2XUEFS?utm_source=issamscales.com&utm_medium=value-section" class="btn-primary" target="_blank" rel="noopener">
         Book My Free Strategy Call →
       </a>
     </div>
   </div>
 </section>
-
+ 
 <!-- FIT -->
 <section class="fit">
   <div class="container">
     <p class="section-label">Who This Is For</p>
     <h2>Is This You?</h2>
-    <p class="fit-lead">I work with a small number of brands per quarter because I personally do the work. Read this carefully before booking.</p>
+    <p class="fit-lead">I work with a small number of brands per quarter because I personally do the work and prefer quality for my clients. Read this carefully before booking.</p>
     <div class="fit-grid">
       <div class="fit-col">
         <div class="fit-col-head yes">✅ &nbsp;This IS for you if…</div>
@@ -710,7 +694,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- URGENCY + SCARCITY -->
 <section class="urgency">
   <div class="container">
@@ -731,7 +715,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- GUARANTEE -->
 <section class="guarantee">
   <div class="container">
@@ -747,7 +731,7 @@
     </div>
   </div>
 </section>
-
+ 
 <!-- FINAL CTA -->
 <section class="finalcta">
   <div class="container">
@@ -757,16 +741,16 @@
     <a href="https://form.typeform.com/to/wV2XUEFS?utm_source=issamscales.com&utm_medium=final-cta" class="btn-primary" target="_blank" rel="noopener">
       Book My Free Strategy Call →
     </a>
-    <p class="finalcta-note">No commitment · Free 30-min session · Limited to 4 brands per quarter</p>
+    <p class="finalcta-note">No commitment · Free 30-min session · Limited to a few brands per quarter</p>
   </div>
 </section>
-
+ 
 <!-- FOOTER -->
 <footer>
   <p>© 2026 Issam Scales · Meta Ecom Performance ·
-    <a href="https://www.instagram.com/issam__ig/" target="_blank" rel="noopener">Let's talk!</a>
+    <a href="https://www.instagram.com/direct/t/102537047808632/?__pwa=1" target="_blank" rel="noopener">Let's talk</a>
   </p>
 </footer>
-
+ 
 </body>
 </html>
