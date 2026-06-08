@@ -406,6 +406,47 @@
     /* FOOTER */
     footer { padding: 48px 0; border-top: 1px solid var(--border); text-align: center; font-size: 13px; color: var(--muted); }
     footer a { color: var(--text); text-decoration: underline; text-underline-offset: 4px; }
+
+    
+ 
+    /* VALUE SECTION — GLOWING JUMP CTA */
+    @keyframes btn-jump {
+      0%, 100% { transform: translateY(0); }
+      40%       { transform: translateY(-6px); }
+      60%       { transform: translateY(-3px); }
+    }
+    @keyframes btn-glow-pulse {
+      0%, 100% { box-shadow: 0 0 18px 4px rgba(249,79,6,.45), 0 0 40px 8px rgba(249,79,6,.18); }
+      50%       { box-shadow: 0 0 28px 8px rgba(249,79,6,.70), 0 0 60px 16px rgba(249,79,6,.28); }
+    }
+    @keyframes btn-shine {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+ 
+    .btn-primary-glow {
+      position: relative;
+      animation: btn-jump 1.4s ease-in-out infinite, btn-glow-pulse 1.4s ease-in-out infinite;
+      background: linear-gradient(
+        105deg,
+        var(--orange) 0%,
+        var(--orange) 38%,
+        rgba(255,255,255,.28) 50%,
+        var(--orange) 62%,
+        var(--orange) 100%
+      );
+      background-size: 200% auto;
+      animation: btn-jump 1.4s ease-in-out infinite,
+                 btn-glow-pulse 1.4s ease-in-out infinite,
+                 btn-shine 1.4s linear infinite;
+      will-change: transform, box-shadow;
+    }
+    .btn-primary-glow:hover {
+      opacity: 1;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 36px 10px rgba(249,79,6,.75), 0 0 70px 20px rgba(249,79,6,.3);
+      animation-play-state: paused;
+    }
  
     @media (max-width: 768px) {
       .hero { padding: 60px 0 48px; }
@@ -651,7 +692,7 @@
     <div class="value-total">
       <p class="value-total-text"><strong>Total Value: $7,500+/mo</strong></p>
       <p class="value-note"><strong style="color: red;">33%OFF FOR THE FIRST 3 MONTHS‼️</strong><br>Price Available on the Call</strong><br /><span style="font-size: 14px; color: var(--muted); font-style: italic;">by the way...it's way less</span></p>
-      <a href="https://form.typeform.com/to/wV2XUEFS?utm_source=issamscales.com&utm_medium=value-section" class="btn-primary" target="_blank" rel="noopener">
+      <a href="https://form.typeform.com/to/wV2XUEFS?utm_source=issamscales.com&utm_medium=value-section" class="btn-primary btn-primary-glow" target="_blank" rel="noopener">
         Book My Free Strategy Call →
       </a>
     </div>
