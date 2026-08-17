@@ -1418,82 +1418,55 @@
        JAVASCRIPT
   ========================= -->
 
-  <script>
+ <script>
+  const form = document.getElementById("leadForm");
+  const roadmap = document.getElementById("roadmap");
+  const errorMessage = document.getElementById("formError");
 
-    const form = document.getElementById("leadForm");
-    const roadmap = document.getElementById("roadmap");
-    const errorMessage = document.getElementById("formError");
+  // Hide the roadmap when the page loads
+  roadmap.style.display = "none";
 
-    form.addEventListener("submit", function(event) {
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
 
-      /*
-        Prevent the browser from navigating away.
+    // Check that all required fields are completed
+    if (!form.checkValidity()) {
+      errorMessage.style.display = "block";
+      form.reportValidity();
+      return;
+    }
 
-        IMPORTANT:
-        If you connect the form to a real backend,
-        replace this behavior with your backend submission.
-      */
+    errorMessage.style.display = "none";
 
-      event.preventDefault();
+    // Collect the lead information
+    const leadData = {
+      name: document.getElementById("name").value,
+      phone: document.getElementById("phone").value,
+      website: document.getElementById("website").value,
+      adSpend: document.getElementById("adSpend").value,
+      videoContent:
+        document.querySelector('input[name="videoContent"]:checked')?.value || "",
+      revenue: document.getElementById("revenue").value,
+      submittedAt: new Date().toISOString()
+    };
 
-      if (!form.checkValidity()) {
+    // Save locally
+    localStorage.setItem("issamLead", JSON.stringify(leadData));
 
-        errorMessage.style.display = "block";
+    // Hide the form
+    document.querySelector(".form-section").style.display = "none";
 
-        form.reportValidity();
+    // Reveal the roadmap
+    roadmap.style.display = "block";
 
-        return;
-      }
-
-      errorMessage.style.display = "none";
-
-      /*
-        Store the lead information locally.
-
-        This does NOT send the information to you.
-        It is only useful if you later connect this
-        to a CRM, webhook, backend, Formspree, etc.
-      */
-
-      const leadData = {
-
-        name: document.getElementById("name").value,
-
-        phone: document.getElementById("phone").value,
-
-        website: document.getElementById("website").value,
-
-        adSpend: document.getElementById("adSpend").value,
-
-        videoContent:
-          document.querySelector(
-            'input[name="videoContent"]:checked'
-          )?.value || "",
-
-        revenue:
-          document.getElementById("revenue").value,
-
-        submittedAt:
-          new Date().toISOString()
-
-      };
-
-      localStorage.setItem(
-        "issamLead",
-        JSON.stringify(leadData)
-      );
-
-      /*
-        Scroll to the roadmap.
-      */
-
+    // Scroll to the roadmap
+    setTimeout(() => {
       roadmap.scrollIntoView({
         behavior: "smooth"
       });
-
-    });
-
-  </script>
+    }, 100);
+  });
+</script>
 
 </body>
 </html>
