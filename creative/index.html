@@ -1423,53 +1423,118 @@
   ========================= -->
 
   <script>
+
   const form = document.getElementById("leadForm");
   const roadmap = document.getElementById("roadmap");
   const errorMessage = document.getElementById("formError");
 
-  // Hide the roadmap when the page loads
+  // Hide roadmap until the form is completed
   roadmap.style.display = "none";
 
-  form.addEventListener("submit", function(event) {
+  form.addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
-    // Check that all required fields are completed
+    // Check required fields
     if (!form.checkValidity()) {
+
       errorMessage.style.display = "block";
+
       form.reportValidity();
+
       return;
     }
 
     errorMessage.style.display = "none";
 
-    // Collect the lead information
+    // Collect form information
     const leadData = {
+
       name: document.getElementById("name").value,
+
       phone: document.getElementById("phone").value,
+
       website: document.getElementById("website").value,
+
       adSpend: document.getElementById("adSpend").value,
+
       videoContent:
-        document.querySelector('input[name="videoContent"]:checked')?.value || "",
-      revenue: document.getElementById("revenue").value,
-      submittedAt: new Date().toISOString()
+        document.querySelector(
+          'input[name="videoContent"]:checked'
+        )?.value || "",
+
+      revenue:
+        document.getElementById("revenue").value
     };
 
-    // Save locally
-    localStorage.setItem("issamLead", JSON.stringify(leadData));
 
-    // Hide the form
-    document.querySelector(".form-section").style.display = "none";
+    // Your Google Apps Script URL
+    const GOOGLE_SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbwLyUSYWPz5ouyCU91ovIhqT6VfUWAZsnxdEj9SosK1yCJV2L2E3vrPMGtWIZlOGnL5/exec";
 
-    // Reveal the roadmap
-    roadmap.style.display = "block";
 
-    // Scroll to the roadmap
-    setTimeout(() => {
-      roadmap.scrollIntoView({
-        behavior: "smooth"
+    // Change button while submitting
+    const submitButton =
+      form.querySelector(".submit-btn");
+
+    submitButton.textContent = "Loading...";
+
+    submitButton.disabled = true;
+
+
+    try {
+
+      await fetch(GOOGLE_SCRIPT_URL, {
+
+        method: "POST",
+
+        mode: "no-cors",
+
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+
+        body: JSON.stringify(leadData)
+
       });
-    }, 100);
+
+
+      // Hide the form
+      document.querySelector(".form-section").style.display = "none";
+
+
+      // Show the roadmap
+      roadmap.style.display = "block";
+
+
+      // Scroll to roadmap
+      setTimeout(() => {
+
+        roadmap.scrollIntoView({
+          behavior: "smooth"
+        });
+
+      }, 100);
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      errorMessage.textContent =
+        "Something went wrong. Please try again.";
+
+      errorMessage.style.display = "block";
+
+      submitButton.textContent =
+        "Show Me The Creative Roadmap →";
+
+      submitButton.disabled = false;
+
+    }
+
   });
+
 </script>
 
 </body>
