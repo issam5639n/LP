@@ -1,1 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <title>Why You Can't Scale Your Ads | Issam Scales</title>
+
+  <meta
+    name="description"
+    content="Discover what's stopping your ecommerce brand from scaling ads profitably. Get the roadmap for creative strategy, campaigns, ad sets, website conversion and offers."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #070707;
+      --card: #101010;
+      --card-2: #151515;
+      --text: #f7f7f7;
+      --muted: #999999;
+      --border: #242424;
+      --accent: #ffffff;
+      --accent-text: #000000;
+      --success: #b7f7c6;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Inter", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .container {
+      width: min(1100px, 92%);
+      margin: 0 auto;
+    }
+
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(7, 7, 7, 0.86);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .nav-inner {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: #888;
+    }
+
+    .nav-cta {
+      background: #fff;
+      color: #000;
+      border: none;
+      padding: 11px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      opacity: 0.9;
+    }
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+      padding: 150px 0 80px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #cfcfcf;
+      margin-bottom: 25px;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 12px rgba(255,255,255,.8);
+    }
+
+    .hero h1 {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: clamp(40px, 7vw, 76px);
+      line-height: 0.98;
+      letter-spacing: -4px;
+      font-weight: 900;
+    }
+
+    .hero h1 span {
+      color: #777;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 25px auto 0;
+      font-size: 18px;
+      color: #ababab;
+      line-height: 1.7;
+    }
+
+    .hero-highlight {
+      margin-top: 35px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-highlight div {
+      padding: 10px 14px;
+      border: 1px solid #272727;
+      background: #0e0e0e;
+      border-radius: 7px;
+      font-size: 13px;
+      color: #cfcfcf;
+    }
+
+    /* =========================
+       FORM SECTION
+    ========================= */
+
+    .form-section {
+      padding: 30px 0 100px;
+    }
+
+    .form-wrapper {
+      max-width: 760px;
+      margin: 0 auto;
+      background: linear-gradient(145deg, #111 0%, #090909 100%);
+      border: 1px solid #272727;
+      border-radius: 18px;
+      padding: 38px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+
+    .form-title {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .form-title h2 {
+      font-size: 30px;
+      line-height: 1.1;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .form-title p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    form {
+      display: grid;
+      gap: 18px;
+    }
+
+    .field-group {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #d6d6d6;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #2a2a2a;
+      background: #080808;
+      color: #fff;
+      padding: 15px 15px;
+      border-radius: 9px;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+
+    input::placeholder {
+      color: #555;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: #666;
+      box-shadow: 0 0 0 3px rgba(255,255,255,.04);
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      margin-top: 8px;
+      width: 100%;
+      padding: 16px;
+      border: 0;
+      border-radius: 9px;
+      background: #fff;
+      color: #000;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .privacy {
+      text-align: center;
+      font-size: 11px;
+      color: #666;
+      margin-top: 2px;
+    }
+
+    /* =========================
+       INTRO
+    ========================= */
+
+    .section {
+      padding: 110px 0;
+    }
+
+    .section-header {
+      max-width: 760px;
+      margin-bottom: 55px;
+    }
+
+    .section-number {
+      color: #666;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -2.5px;
+      margin-bottom: 18px;
+    }
+
+    .section-header p {
+      color: #929292;
+      font-size: 17px;
+      line-height: 1.75;
+    }
+
+    /* =========================
+       PROBLEM CARDS
+    ========================= */
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .problem-card {
+      background: #0d0d0d;
+      border: 1px solid #202020;
+      padding: 24px;
+      border-radius: 13px;
+      min-height: 190px;
+    }
+
+    .problem-icon {
+      width: 38px;
+      height: 38px;
+      background: #181818;
+      border: 1px solid #2b2b2b;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-weight: 900;
+    }
+
+    .problem-card h3 {
+      font-size: 16px;
+      margin-bottom: 9px;
+    }
+
+    .problem-card p {
+      color: #858585;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    /* =========================
+       ROADMAP
+    ========================= */
+
+    .roadmap {
+      position: relative;
+      margin-top: 50px;
+    }
+
+    .roadmap-line {
+      position: absolute;
+      left: 27px;
+      top: 30px;
+      bottom: 30px;
+      width: 1px;
+      background: linear-gradient(
+        to bottom,
+        #333,
+        #222,
+        transparent
+      );
+    }
+
+    .step {
+      position: relative;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      gap: 22px;
+      margin-bottom: 28px;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: #111;
+      border: 1px solid #303030;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+      font-size: 14px;
+      z-index: 2;
+    }
+
+    .step-card {
+      background: #0e0e0e;
+      border: 1px solid #232323;
+      border-radius: 14px;
+      padding: 28px;
+    }
+
+    .step-card .small-label {
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 10px;
+      color: #666;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .step-card h3 {
+      font-size: 24px;
+      letter-spacing: -0.8px;
+      margin-bottom: 10px;
+    }
+
+    .step-card p {
+      color: #898989;
+      line-height: 1.7;
+      font-size: 14px;
+      margin-bottom: 17px;
+    }
+
+    .step-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .step-points span {
+      padding: 7px 10px;
+      background: #171717;
+      border: 1px solid #292929;
+      border-radius: 6px;
+      font-size: 11px;
+      color: #bdbdbd;
+    }
+
+    /* =========================
+       100K SECTION
+    ========================= */
+
+    .goal-section {
+      padding: 120px 0;
+    }
+
+    .goal-box {
+      position: relative;
+      overflow: hidden;
+      background: #f3f3f3;
+      color: #000;
+      border-radius: 20px;
+      padding: 70px 55px;
+    }
+
+    .goal-box:after {
+      content: "$100K+";
+      position: absolute;
+      right: -50px;
+      bottom: -50px;
+      font-size: 180px;
+      font-weight: 900;
+      color: rgba(0,0,0,.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .goal-box h2 {
+      max-width: 650px;
+      font-size: clamp(40px, 6vw, 70px);
+      line-height: .98;
+      letter-spacing: -4px;
+      margin-bottom: 20px;
+    }
+
+    .goal-box p {
+      max-width: 650px;
+      color: #555;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       CHECKLIST
+    ========================= */
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 35px;
+    }
+
+    .check {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #0e0e0e;
+      border: 1px solid #202020;
+      border-radius: 10px;
+      padding: 18px;
+    }
+
+    .checkmark {
+      min-width: 20px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      color: #000;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .check p {
+      font-size: 13px;
+      color: #aaa;
+      line-height: 1.55;
+    }
+
+    /* =========================
+       CTA
+    ========================= */
+
+    .final-cta {
+      padding: 120px 0 130px;
+      text-align: center;
+    }
+
+    .final-cta h2 {
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: 1;
+      letter-spacing: -3px;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+
+    .final-cta p {
+      color: #858585;
+      max-width: 600px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 16px 26px;
+      background: white;
+      color: black;
+      border-radius: 9px;
+      font-weight: 900;
+      font-size: 14px;
+      transition: .2s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+    }
+
+    footer {
+      border-top: 1px solid #1c1c1c;
+      padding: 28px 0;
+      text-align: center;
+      color: #555;
+      font-size: 11px;
+    }
+
+    /* =========================
+       SUCCESS MESSAGE
+    ========================= */
+
+    .success-message {
+      display: none;
+      padding: 22px;
+      margin-top: 18px;
+      border: 1px solid #263b2d;
+      background: #0c1510;
+      border-radius: 10px;
+      color: var(--success);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+      .problem-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        height: 64px;
+      }
+
+      .nav-cta {
+        padding: 9px 13px;
+        font-size: 11px;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2.5px;
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+
+      .form-wrapper {
+        padding: 23px;
+      }
+
+      .problem-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .step {
+        grid-template-columns: 44px 1fr;
+        gap: 14px;
+      }
+
+      .step-number {
+        width: 44px;
+        height: 44px;
+      }
+
+      .roadmap-line {
+        left: 21px;
+      }
+
+      .step-card {
+        padding: 21px;
+      }
+
+      .step-card h3 {
+        font-size: 20px;
+      }
+
+      .goal-box {
+        padding: 42px 27px;
+      }
+
+      .goal-box h2 {
+        letter-spacing: -2px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <div class="logo">
+        ISSAM<span>SCALES</span>
+      </div>
+
+      <a href="#apply" class="nav-cta">
+        GET THE ROADMAP
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+
+      <div class="eyebrow">
+        <div class="eyebrow-dot"></div>
+        FOR ECOMMERCE BRANDS IN LEBANON & THE MIDDLE EAST
+      </div>
+
+      <h1>
+        Why You Can't<br>
+        <span>Scale Your Ads</span>
+      </h1>
+
+      <p>
+        A practical roadmap for ecommerce brands that want to stop
+        guessing, build a scalable acquisition system, and work toward
+        $100K+/month in revenue.
+      </p>
+
+      <div class="hero-highlight">
+        <div>Creative Strategy</div>
+        <div>Campaign Structure</div>
+        <div>High-Converting Website</div>
+        <div>High-Converting Offers</div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- LEAD FORM -->
+  <section class="form-section" id="apply">
+    <div class="container">
+
+      <div class="form-wrapper">
+
+        <div class="form-title">
+          <h2>Before You Get The Roadmap</h2>
+          <p>
+            Answer 6 quick questions so I can understand where your brand is today.
+          </p>
+        </div>
+
+        <form id="leadForm">
+
+          <div class="field-group">
+            <label for="name">1. First & Last Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your full name"
+              required
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="phone">2. Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              placeholder="+961 XX XXX XXX"
+              required
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="website">
+              3. What's your brand's website?
+              <span style="color:#666;">(or Instagram if you don't have one)</span>
+            </label>
+
+            <input
+              type="text"
+              id="website"
+              name="website"
+              placeholder="https://yourbrand.com or @yourbrand"
+              required
+            />
+          </div>
+
+          <div class="field-group">
+            <label for="adSpend">
+              4. How much are you spending on ads per month?
+            </label>
+
+            <select id="adSpend" name="adSpend" required>
+              <option value="" disabled selected>Select your monthly ad spend</option>
+              <option>Less than $500</option>
+              <option>$500 – $1,000</option>
+              <option>$1,000 – $3,000</option>
+              <option>$3,000 – $5,000</option>
+              <option>$5,000 – $10,000</option>
+              <option>$10,000+</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="videoContent">
+              5. Do you have someone to do your video content?
+            </label>
+
+            <select id="videoContent" name="videoContent" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Yes, I have an in-house creator</option>
+              <option>Yes, I work with freelancers</option>
+              <option>Yes, I work with an agency</option>
+              <option>No, I create it myself</option>
+              <option>No, I don't currently have anyone</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="revenue">
+              6. What's your monthly revenue?
+            </label>
+
+            <select id="revenue" name="revenue" required>
+              <option value="" disabled selected>Select your monthly revenue</option>
+              <option>Less than $1,000</option>
+              <option>$1,000 – $5,000</option>
+              <option>$5,000 – $10,000</option>
+              <option>$10,000 – $25,000</option>
+              <option>$25,000 – $50,000</option>
+              <option>$50,000 – $100,000</option>
+              <option>$100,000+</option>
+            </select>
+          </div>
+
+          <button type="submit" class="submit-btn">
+            SHOW ME THE ROADMAP →
+          </button>
+
+          <div class="privacy">
+            Your information stays private. No spam.
+          </div>
+
+          <div class="success-message" id="successMessage">
+            Your answers have been submitted successfully.
+            <br>
+            Scroll down to access the roadmap.
+          </div>
+
+        </form>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CONTEXT -->
+  <section class="section">
+    <div class="container">
+
+      <div class="section-header">
+
+        <div class="section-number">
+          THE REAL PROBLEM
+        </div>
+
+        <h2>
+          Scaling isn't just<br>
+          increasing your budget.
+        </h2>
+
+        <p>
+          Most ecommerce brands try to scale by simply putting more money
+          behind the same ads. Then performance drops, CPA increases,
+          and everyone blames the algorithm.
+        </p>
+
+        <p style="margin-top:14px;">
+          The real problem is usually the system behind the ads.
+        </p>
+
+      </div>
+
+      <div class="problem-grid">
+
+        <div class="problem-card">
+          <div class="problem-icon">01</div>
+          <h3>Weak Creative</h3>
+          <p>
+            You're running ads, but your creatives aren't communicating
+            the right message to the right customer.
+          </p>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-icon">02</div>
+          <h3>Wrong Structure</h3>
+          <p>
+            Your campaigns and ad sets aren't designed around a clear
+            testing and scaling system.
+          </p>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-icon">03</div>
+          <h3>Low CVR</h3>
+          <p>
+            You're sending expensive traffic to a website that isn't
+            doing enough to convert that traffic.
+          </p>
+        </div>
+
+        <div class="problem-card">
+          <div class="problem-icon">04</div>
+          <h3>Weak Offer</h3>
+          <p>
+            Even great ads struggle when the customer doesn't have a
+            compelling reason to buy now.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ROADMAP -->
+  <section class="section" id="roadmap">
+    <div class="container">
+
+      <div class="section-header">
+
+        <div class="section-number">
+          THE ROADMAP
+        </div>
+
+        <h2>
+          The system behind<br>
+          scalable ecommerce growth.
+        </h2>
+
+        <p>
+          To build a brand capable of reaching $100K+/month, you need
+          multiple parts of the acquisition system working together.
+        </p>
+
+      </div>
+
+      <div class="roadmap">
+
+        <div class="roadmap-line"></div>
+
+        <!-- STEP 01 -->
+        <div class="step">
+
+          <div class="step-number">
+            01
+          </div>
+
+          <div class="step-card">
+
+            <div class="small-label">
+              FOUNDATION
+            </div>
+
+            <h3>Know Your Customer</h3>
+
+            <p>
+              Before making ads, understand exactly who you're speaking
+              to, what they want, what they fear, what they've tried,
+              and what would make them believe your product can solve
+              their problem.
+            </p>
+
+            <div class="step-points">
+              <span>Customer Research</span>
+              <span>Personas</span>
+              <span>Pain Points</span>
+              <span>Desires</span>
+              <span>Buying Triggers</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- STEP 02 -->
+        <div class="step">
+
+          <div class="step-number">
+            02
+          </div>
+
+          <div class="step-card">
+
+            <div class="small-label">
+              OFFER
+            </div>
+
+            <h3>Create an Offer People Want</h3>
+
+            <p>
+              Your product isn't always the problem. Sometimes the
+              customer simply isn't getting enough value, urgency,
+              proof or risk reversal to make the purchase.
+            </p>
+
+            <div class="step-points">
+              <span>Value</span>
+              <span>Bonus</span>
+              <span>Urgency</span>
+              <span>Risk Reversal</span>
+              <span>Bundle Strategy</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- STEP 03 -->
+        <div class="step">
+
+          <div class="step-number">
+            03
+          </div>
+
+          <div class="step-card">
+
+            <div class="small-label">
+              CREATIVE
+            </div>
+
+            <h3>Build a Creative Testing Machine</h3>
+
+            <p>
+              Scaling requires more than one winning ad. You need a
+              consistent stream of new creative concepts, hooks,
+              angles, formats and messages.
+            </p>
+
+            <div class="step-points">
+              <span>UGC</span>
+              <span>Founder Story</span>
+              <span>Problem / Solution</span>
+              <span>Before & After</span>
+              <span>US vs Them</span>
+              <span>Testimonials</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- STEP 04 -->
+        <div class="step">
+
+          <div class="step-number">
+            04
+          </div>
+
+          <div class="step-card">
+
+            <div class="small-label">
+              META ADS
+            </div>
+
+            <h3>Build the Right Campaign Structure</h3>
+
+            <p>
+              Your account structure should make testing, learning and
+              scaling easier—not create unnecessary fragmentation.
+              The goal is to systematically identify winning
+              combinations and allocate more budget toward them.
+            </p>
+
+            <div class="step-points">
+              <span>Campaign Structure</span>
+              <span>Ad Set Strategy</span>
+              <span>Creative Testing</span>
+              <span>Budget Allocation</span>
+              <span>Scaling</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- STEP 05 -->
+        <div class="step">
+
+          <div class="step-number">
+            05
+          </div>
+
+          <div class="step-card">
+
+            <div class="small-label">
+              WEBSITE
+            </div>
+
+            <h3>Turn Traffic Into Customers</h3>
+
+            <p>
+              Paying for traffic is only half of the equation.
+              Your product page needs to communicate the value,
+              remove objections, create desire and make purchasing
+              frictionless.
+            </p>
+
+            <div class="step-points">
+              <span>Landing Page</span>
+              <span>Product Page</span>
+              <span>Social Proof</span>
+              <span>Objection Handling</span>
+              <span>Conversion Rate</span>
+            </div>
+
+          </div>
+        </div>
+
+
+        <!-- STEP 06 -->
+        <div class="step">
+
+          <div class="step-number">
+            06
+          </div>
+
+          <div class="step-card">
+
+            <div class="small-label">
+              SCALE
+            </div>
+
+            <h3>Scale What Works</h3>
+
+            <p>
+              Once your offer, creatives, campaigns and website are
+              working together, you can begin increasing spend while
+              continuously feeding the system with new creative
+              variations and testing new opportunities.
+            </p>
+
+            <div class="step-points">
+              <span>Winners</span>
+              <span>New Concepts</span>
+              <span>Budget Scaling</span>
+              <span>Retention</span>
+              <span>Profitability</span>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- $100K GOAL -->
+  <section class="goal-section">
+    <div class="container">
+
+      <div class="goal-box">
+
+        <h2>
+          $100K+/month isn't one tactic.
+        </h2>
+
+        <p>
+          It's the result of building an ecommerce acquisition system
+          where every part supports the next.
+        </p>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- WHAT YOU NEED -->
+  <section class="section">
+
+    <div class="container">
+
+      <div class="section-header">
+
+        <div class="section-number">
+          YOUR CHECKLIST
+        </div>
+
+        <h2>
+          Before you increase<br>
+          your ad budget...
+        </h2>
+
+        <p>
+          Make sure these pieces are actually working.
+        </p>
+
+      </div>
+
+      <div class="checklist">
+
+        <div class="check">
+          <div class="checkmark">✓</div>
+          <p>
+            You know exactly who your best customers are.
+          </p>
+        </div>
+
+        <div class="check">
+          <div class="checkmark">✓</div>
+          <p>
+            Your offer gives people a clear reason to buy.
+          </p>
+        </div>
+
+        <div class="check">
+          <div class="checkmark">✓</div>
+          <p>
+            You have multiple creative angles and concepts.
+          </p>
+        </div>
+
+        <div class="check">
+          <div class="checkmark">✓</div>
+          <p>
+            Your Meta campaign structure supports testing and scaling.
+          </p>
+        </div>
+
+        <div class="check">
+          <div class="checkmark">✓</div>
+          <p>
+            Your website converts paid traffic efficiently.
+          </p>
+        </div>
+
+        <div class="check">
+          <div class="checkmark">✓</div>
+          <p>
+            You have a process for continuously testing new creatives.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+
+    <div class="container">
+
+      <h2>
+        Stop trying to scale ads.
+        Start building a system.
+      </h2>
+
+      <p>
+        Get the roadmap and identify the bottleneck that's preventing
+        your ecommerce brand from reaching the next level.
+      </p>
+
+      <a href="#apply" class="cta-button">
+        GET THE ROADMAP →
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      © 2026 Issam Scales — Performance Marketing & Creative Strategy
+    </div>
+  </footer>
+
+
+  <script>
+
+    /*
+    ==========================================
+    LEAD FORM SUBMISSION
+    ==========================================
+
+    Replace the URL below with your Google Apps Script
+    Web App URL when you're ready to connect this
+    form to Google Sheets.
+    */
+
+    const GOOGLE_SCRIPT_URL = "";
+
+    const form = document.getElementById("leadForm");
+    const successMessage = document.getElementById("successMessage");
+
+    form.addEventListener("submit", async function (event) {
+
+      event.preventDefault();
+
+      const submitButton = form.querySelector(".submit-btn");
+
+      submitButton.disabled = true;
+      submitButton.textContent = "SUBMITTING...";
+
+      const formData = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        website: document.getElementById("website").value,
+        adSpend: document.getElementById("adSpend").value,
+        videoContent: document.getElementById("videoContent").value,
+        revenue: document.getElementById("revenue").value,
+        timestamp: new Date().toISOString()
+      };
+
+      try {
+
+        /*
+        If GOOGLE_SCRIPT_URL is empty,
+        the form will still work visually.
+        */
+
+        if (GOOGLE_SCRIPT_URL) {
+
+          await fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(formData)
+          });
+
+        }
+
+        successMessage.style.display = "block";
+
+        submitButton.textContent = "SUBMITTED ✓";
+
+        // Scroll to roadmap
+        setTimeout(() => {
+          document.getElementById("roadmap").scrollIntoView({
+            behavior: "smooth"
+          });
+        }, 600);
+
+      } catch (error) {
+
+        console.error(error);
+
+        submitButton.disabled = false;
+        submitButton.textContent = "TRY AGAIN →";
+
+        alert(
+          "Something went wrong. Please try again."
+        );
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
