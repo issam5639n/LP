@@ -218,7 +218,7 @@
 
     .eyebrow {
       color: #8d8d8d;
-      text-transform: uppercase;
+      text-trans: uppercase;
       letter-spacing: .12em;
       font-size: 12px;
       font-weight: 800;
@@ -305,7 +305,7 @@
     @media (max-width: 720px) {
       .container { width: min(var(--max), calc(100% - 24px)); }
       .hero { padding-top: 55px; }
-      .form-card { padding: 22px; }
+      .-card { padding: 22px; }
       .form-grid { grid-template-columns: 1fr; }
       .field.full { grid-column: auto; }
       .metric-group { padding: 18px; }
@@ -579,19 +579,45 @@
     const form = document.getElementById("leadForm");
     const resource = document.getElementById("resource");
 
-    form.addEventListener("submit", function (event) {
-      event.preventDefault();
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxr70NyOj7aUi76tKDdG3yLPvZ1h3rOllsXIsE6J7ED6CiKDQ40rRkJENtXjMoTYs4h/exec";
 
-      // IMPORTANT:
-      // This demo unlocks the resource locally.
-      // Connect this submit handler to your Google Apps Script / CRM / webhook
-      // when you want to actually save the lead information.
-      const data = Object.fromEntries(new FormData(form).entries());
-      console.log("Lead:", data);
+form.addEventListener("submit", async function (event) {
+  event.preventDefault();
 
-      resource.classList.add("show");
-      resource.scrollIntoView({ behavior: "smooth", block: "start" });
+  const submitButton = form.querySelector(".submit-btn");
+  submitButton.disabled = true;
+  submitButton.textContent = "Submitting...";
+
+  const data = Object.fromEntries(new FormData(form).entries());
+
+  try {
+    await fetch(SCRIPT_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8"
+      },
+      body: JSON.stringify(data)
     });
+
+    resource.classList.add("show");
+
+    resource.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+    form.reset();
+
+  } catch (error) {
+    console.error(error);
+
+    alert("Something went wrong. Please try again.");
+
+    submitButton.disabled = false;
+    submitButton.textContent = "Unlock the Top Ecom Metrics →";
+  }
+});
 
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
