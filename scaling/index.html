@@ -74,7 +74,7 @@
       left: 0;
       width: 100%;
       z-index: 1000;
-      background: rgba(7, 7, 7, 0.86);
+      background: rgba(7, 7, 7, 0.88);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid rgba(255,255,255,0.06);
     }
@@ -239,7 +239,7 @@
       border: 1px solid #2a2a2a;
       background: #080808;
       color: #fff;
-      padding: 15px 15px;
+      padding: 15px;
       border-radius: 9px;
       outline: none;
       transition: border-color .2s ease, box-shadow .2s ease;
@@ -274,8 +274,13 @@
       transition: 0.2s ease;
     }
 
-    .submit-btn:hover {
+    .submit-btn:hover:not(:disabled) {
       transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      cursor: wait;
+      opacity: 0.75;
     }
 
     .privacy {
@@ -285,8 +290,134 @@
       margin-top: 2px;
     }
 
+    .success-message {
+      display: none;
+      padding: 22px;
+      margin-top: 18px;
+      border: 1px solid #263b2d;
+      background: #0c1510;
+      border-radius: 10px;
+      color: var(--success);
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
     /* =========================
-       INTRO
+       LOCKED CONTENT
+    ========================= */
+
+    .locked-content {
+      position: relative;
+      min-height: 2600px;
+    }
+
+    .locked-inner {
+      filter: blur(8px);
+      user-select: none;
+      pointer-events: none;
+      opacity: 0.48;
+      transition:
+        filter .8s ease,
+        opacity .8s ease;
+    }
+
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 90px;
+      background:
+        linear-gradient(
+          to bottom,
+          rgba(7,7,7,0.20) 0%,
+          rgba(7,7,7,0.55) 35%,
+          rgba(7,7,7,0.82) 100%
+        );
+    }
+
+    .lock-box {
+      width: min(440px, 90%);
+      text-align: center;
+      background: rgba(14,14,14,0.97);
+      border: 1px solid #303030;
+      border-radius: 17px;
+      padding: 32px 26px;
+      box-shadow:
+        0 25px 90px rgba(0,0,0,0.7),
+        0 0 0 1px rgba(255,255,255,0.02);
+      position: sticky;
+      top: 110px;
+    }
+
+    .lock-icon {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 18px;
+      border-radius: 50%;
+      background: #191919;
+      border: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+    }
+
+    .lock-box h3 {
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      margin-bottom: 9px;
+    }
+
+    .lock-box p {
+      color: #888;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .lock-box .lock-highlight {
+      color: #d9d9d9;
+      font-weight: 700;
+    }
+
+    .unlock-btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 14px 21px;
+      background: #fff;
+      color: #000;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      border: none;
+      transition: 0.2s ease;
+    }
+
+    .unlock-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    /* =========================
+       UNLOCKED STATE
+    ========================= */
+
+    .is-unlocked .locked-inner {
+      filter: none;
+      opacity: 1;
+      user-select: auto;
+      pointer-events: auto;
+    }
+
+    .is-unlocked .lock-overlay {
+      display: none;
+    }
+
+    /* =========================
+       GENERIC SECTIONS
     ========================= */
 
     .section {
@@ -449,7 +580,7 @@
     }
 
     /* =========================
-       100K SECTION
+       $100K SECTION
     ========================= */
 
     .goal-section {
@@ -468,8 +599,8 @@
     .goal-box:after {
       content: "$100K+";
       position: absolute;
-      right: -50px;
-      bottom: -50px;
+      right: -40px;
+      bottom: -45px;
       font-size: 180px;
       font-weight: 900;
       color: rgba(0,0,0,.04);
@@ -533,7 +664,7 @@
     }
 
     /* =========================
-       CTA
+       FINAL CTA
     ========================= */
 
     .final-cta {
@@ -571,6 +702,10 @@
       transform: translateY(-3px);
     }
 
+    /* =========================
+       FOOTER
+    ========================= */
+
     footer {
       border-top: 1px solid #1c1c1c;
       padding: 28px 0;
@@ -580,27 +715,11 @@
     }
 
     /* =========================
-       SUCCESS MESSAGE
-    ========================= */
-
-    .success-message {
-      display: none;
-      padding: 22px;
-      margin-top: 18px;
-      border: 1px solid #263b2d;
-      background: #0c1510;
-      border-radius: 10px;
-      color: var(--success);
-      text-align: center;
-      font-size: 14px;
-      line-height: 1.6;
-    }
-
-    /* =========================
        RESPONSIVE
     ========================= */
 
     @media (max-width: 900px) {
+
       .problem-grid {
         grid-template-columns: repeat(2, 1fr);
       }
@@ -608,9 +727,15 @@
       .checklist {
         grid-template-columns: 1fr;
       }
+
+      .locked-content {
+        min-height: 2900px;
+      }
+
     }
 
     @media (max-width: 640px) {
+
       .nav-inner {
         height: 64px;
       }
@@ -669,15 +794,32 @@
       .goal-box h2 {
         letter-spacing: -2px;
       }
+
+      .locked-content {
+        min-height: 3200px;
+      }
+
+      .lock-overlay {
+        padding-top: 55px;
+      }
+
+      .lock-box {
+        padding: 27px 20px;
+      }
+
     }
   </style>
 </head>
 
 <body>
 
-  <!-- NAV -->
+  <!-- =========================
+       NAVBAR
+  ========================= -->
+
   <nav>
     <div class="container nav-inner">
+
       <div class="logo">
         ISSAM<span>SCALES</span>
       </div>
@@ -685,12 +827,17 @@
       <a href="#apply" class="nav-cta">
         GET THE ROADMAP
       </a>
+
     </div>
   </nav>
 
 
-  <!-- HERO -->
+  <!-- =========================
+       HERO
+  ========================= -->
+
   <section class="hero">
+
     <div class="container">
 
       <div class="eyebrow">
@@ -717,50 +864,85 @@
       </div>
 
     </div>
+
   </section>
 
 
-  <!-- LEAD FORM -->
+  <!-- =========================
+       LEAD FORM
+  ========================= -->
+
   <section class="form-section" id="apply">
+
     <div class="container">
 
       <div class="form-wrapper">
 
         <div class="form-title">
-          <h2>Before You Get The Roadmap</h2>
+
+          <h2>
+            Unlock The Roadmap
+          </h2>
+
           <p>
-            Answer 6 quick questions so I can understand where your brand is today.
+            Answer 6 quick questions so I can understand where your
+            brand is today.
           </p>
+
         </div>
+
 
         <form id="leadForm">
 
+          <!-- 1 -->
           <div class="field-group">
-            <label for="name">1. First & Last Name</label>
+
+            <label for="name">
+              1. First & Last Name
+            </label>
+
             <input
               type="text"
               id="name"
               name="name"
               placeholder="Your full name"
+              autocomplete="name"
               required
             />
+
           </div>
 
+
+          <!-- 2 -->
           <div class="field-group">
-            <label for="phone">2. Phone Number</label>
+
+            <label for="phone">
+              2. Phone Number
+            </label>
+
             <input
               type="tel"
               id="phone"
               name="phone"
               placeholder="+961 XX XXX XXX"
+              autocomplete="tel"
               required
             />
+
           </div>
 
+
+          <!-- 3 -->
           <div class="field-group">
+
             <label for="website">
+
               3. What's your brand's website?
-              <span style="color:#666;">(or Instagram if you don't have one)</span>
+
+              <span style="color:#666;">
+                (or Instagram if you don't have one)
+              </span>
+
             </label>
 
             <input
@@ -770,589 +952,981 @@
               placeholder="https://yourbrand.com or @yourbrand"
               required
             />
+
           </div>
 
+
+          <!-- 4 -->
           <div class="field-group">
+
             <label for="adSpend">
               4. How much are you spending on ads per month?
             </label>
 
-            <select id="adSpend" name="adSpend" required>
-              <option value="" disabled selected>Select your monthly ad spend</option>
-              <option>Less than $500</option>
-              <option>$500 – $1,000</option>
-              <option>$1,000 – $3,000</option>
-              <option>$3,000 – $5,000</option>
-              <option>$5,000 – $10,000</option>
-              <option>$10,000+</option>
+            <select
+              id="adSpend"
+              name="adSpend"
+              required
+            >
+
+              <option value="" disabled selected>
+                Select your monthly ad spend
+              </option>
+
+              <option>
+                Less than $500
+              </option>
+
+              <option>
+                $500 – $1,000
+              </option>
+
+              <option>
+                $1,000 – $3,000
+              </option>
+
+              <option>
+                $3,000 – $5,000
+              </option>
+
+              <option>
+                $5,000 – $10,000
+              </option>
+
+              <option>
+                $10,000+
+              </option>
+
             </select>
+
           </div>
 
+
+          <!-- 5 -->
           <div class="field-group">
+
             <label for="videoContent">
               5. Do you have someone to do your video content?
             </label>
 
-            <select id="videoContent" name="videoContent" required>
-              <option value="" disabled selected>Select one</option>
-              <option>Yes, I have an in-house creator</option>
-              <option>Yes, I work with freelancers</option>
-              <option>Yes, I work with an agency</option>
-              <option>No, I create it myself</option>
-              <option>No, I don't currently have anyone</option>
+            <select
+              id="videoContent"
+              name="videoContent"
+              required
+            >
+
+              <option value="" disabled selected>
+                Select one
+              </option>
+
+              <option>
+                Yes, I have an in-house creator
+              </option>
+
+              <option>
+                Yes, I work with freelancers
+              </option>
+
+              <option>
+                Yes, I work with an agency
+              </option>
+
+              <option>
+                No, I create it myself
+              </option>
+
+              <option>
+                No, I don't currently have anyone
+              </option>
+
             </select>
+
           </div>
 
+
+          <!-- 6 -->
           <div class="field-group">
+
             <label for="revenue">
               6. What's your monthly revenue?
             </label>
 
-            <select id="revenue" name="revenue" required>
-              <option value="" disabled selected>Select your monthly revenue</option>
-              <option>Less than $1,000</option>
-              <option>$1,000 – $5,000</option>
-              <option>$5,000 – $10,000</option>
-              <option>$10,000 – $25,000</option>
-              <option>$25,000 – $50,000</option>
-              <option>$50,000 – $100,000</option>
-              <option>$100,000+</option>
+            <select
+              id="revenue"
+              name="revenue"
+              required
+            >
+
+              <option value="" disabled selected>
+                Select your monthly revenue
+              </option>
+
+              <option>
+                Less than $1,000
+              </option>
+
+              <option>
+                $1,000 – $5,000
+              </option>
+
+              <option>
+                $5,000 – $10,000
+              </option>
+
+              <option>
+                $10,000 – $25,000
+              </option>
+
+              <option>
+                $25,000 – $50,000
+              </option>
+
+              <option>
+                $50,000 – $100,000
+              </option>
+
+              <option>
+                $100,000+
+              </option>
+
             </select>
+
           </div>
 
-          <button type="submit" class="submit-btn">
-            SHOW ME THE ROADMAP →
+
+          <button
+            type="submit"
+            class="submit-btn"
+          >
+            UNLOCK THE ROADMAP →
           </button>
+
 
           <div class="privacy">
             Your information stays private. No spam.
           </div>
 
-          <div class="success-message" id="successMessage">
+
+          <div
+            class="success-message"
+            id="successMessage"
+          >
             Your answers have been submitted successfully.
-            <br>
-            Scroll down to access the roadmap.
+            <br><br>
+            The roadmap is now unlocked below ↓
           </div>
 
         </form>
 
       </div>
+
     </div>
+
   </section>
 
 
-  <!-- CONTEXT -->
-  <section class="section">
-    <div class="container">
+  <!-- =====================================================
+       EVERYTHING BELOW THIS POINT IS LOCKED INITIALLY
+  ====================================================== -->
 
-      <div class="section-header">
+  <div
+    class="locked-content"
+    id="lockedContent"
+  >
 
-        <div class="section-number">
-          THE REAL PROBLEM
+    <!-- =========================
+         BLURRED CONTENT
+    ========================= -->
+
+    <div class="locked-inner">
+
+
+      <!-- =========================
+           CONTEXT
+      ========================= -->
+
+      <section class="section">
+
+        <div class="container">
+
+          <div class="section-header">
+
+            <div class="section-number">
+              THE REAL PROBLEM
+            </div>
+
+            <h2>
+              Why you can't<br>
+              scale your ads.
+            </h2>
+
+            <p>
+              Most ecommerce brands try to scale by simply putting more
+              money behind the same ads.
+            </p>
+
+            <p style="margin-top:14px;">
+              Then performance drops, CPA increases, and everyone blames
+              the algorithm.
+            </p>
+
+            <p style="margin-top:14px;">
+              The real problem is usually the system behind the ads.
+            </p>
+
+          </div>
+
+
+          <div class="problem-grid">
+
+            <div class="problem-card">
+
+              <div class="problem-icon">
+                01
+              </div>
+
+              <h3>
+                Weak Creative
+              </h3>
+
+              <p>
+                You're running ads, but your creatives aren't
+                communicating the right message to the right customer.
+              </p>
+
+            </div>
+
+
+            <div class="problem-card">
+
+              <div class="problem-icon">
+                02
+              </div>
+
+              <h3>
+                Wrong Structure
+              </h3>
+
+              <p>
+                Your campaigns and ad sets aren't designed around a
+                clear testing and scaling system.
+              </p>
+
+            </div>
+
+
+            <div class="problem-card">
+
+              <div class="problem-icon">
+                03
+              </div>
+
+              <h3>
+                Low CVR
+              </h3>
+
+              <p>
+                You're sending expensive traffic to a website that
+                isn't doing enough to convert that traffic.
+              </p>
+
+            </div>
+
+
+            <div class="problem-card">
+
+              <div class="problem-icon">
+                04
+              </div>
+
+              <h3>
+                Weak Offer
+              </h3>
+
+              <p>
+                Even great ads struggle when the customer doesn't have
+                a compelling reason to buy now.
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <h2>
-          Scaling isn't just<br>
-          increasing your budget.
-        </h2>
+      </section>
+
+
+      <!-- =========================
+           ROADMAP
+      ========================= -->
+
+      <section
+        class="section"
+        id="roadmap"
+      >
+
+        <div class="container">
+
+          <div class="section-header">
+
+            <div class="section-number">
+              THE ROADMAP
+            </div>
+
+            <h2>
+              The system behind<br>
+              scalable ecommerce growth.
+            </h2>
+
+            <p>
+              To build an ecommerce brand capable of reaching
+              $100K+/month, you need multiple parts of the acquisition
+              system working together.
+            </p>
+
+          </div>
+
+
+          <div class="roadmap">
+
+            <div class="roadmap-line"></div>
+
+
+            <!-- STEP 01 -->
+            <div class="step">
+
+              <div class="step-number">
+                01
+              </div>
+
+              <div class="step-card">
+
+                <div class="small-label">
+                  FOUNDATION
+                </div>
+
+                <h3>
+                  Know Your Customer
+                </h3>
+
+                <p>
+                  Before making ads, understand exactly who you're
+                  speaking to, what they want, what they fear, what
+                  they've tried, and what would make them believe your
+                  product can solve their problem.
+                </p>
+
+                <div class="step-points">
+                  <span>Customer Research</span>
+                  <span>Personas</span>
+                  <span>Pain Points</span>
+                  <span>Desires</span>
+                  <span>Buying Triggers</span>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- STEP 02 -->
+            <div class="step">
+
+              <div class="step-number">
+                02
+              </div>
+
+              <div class="step-card">
+
+                <div class="small-label">
+                  OFFER
+                </div>
+
+                <h3>
+                  Create an Offer People Want
+                </h3>
+
+                <p>
+                  Your product isn't always the problem. Sometimes the
+                  customer simply isn't getting enough value, urgency,
+                  proof or risk reversal to make the purchase.
+                </p>
+
+                <div class="step-points">
+                  <span>Value</span>
+                  <span>Bonus</span>
+                  <span>Urgency</span>
+                  <span>Risk Reversal</span>
+                  <span>Bundle Strategy</span>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- STEP 03 -->
+            <div class="step">
+
+              <div class="step-number">
+                03
+              </div>
+
+              <div class="step-card">
+
+                <div class="small-label">
+                  CREATIVE
+                </div>
+
+                <h3>
+                  Build a Creative Testing Machine
+                </h3>
+
+                <p>
+                  Scaling requires more than one winning ad. You need
+                  a consistent stream of new creative concepts, hooks,
+                  angles, formats and messages.
+                </p>
+
+                <div class="step-points">
+                  <span>UGC</span>
+                  <span>Founder Story</span>
+                  <span>Problem / Solution</span>
+                  <span>Before & After</span>
+                  <span>US vs Them</span>
+                  <span>Testimonials</span>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- STEP 04 -->
+            <div class="step">
+
+              <div class="step-number">
+                04
+              </div>
+
+              <div class="step-card">
+
+                <div class="small-label">
+                  META ADS
+                </div>
+
+                <h3>
+                  Build the Right Campaign Structure
+                </h3>
+
+                <p>
+                  Your account structure should make testing, learning
+                  and scaling easier—not create unnecessary
+                  fragmentation.
+                </p>
+
+                <div class="step-points">
+                  <span>Campaign Structure</span>
+                  <span>Ad Set Strategy</span>
+                  <span>Creative Testing</span>
+                  <span>Budget Allocation</span>
+                  <span>Scaling</span>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- STEP 05 -->
+            <div class="step">
+
+              <div class="step-number">
+                05
+              </div>
+
+              <div class="step-card">
+
+                <div class="small-label">
+                  WEBSITE
+                </div>
+
+                <h3>
+                  Turn Traffic Into Customers
+                </h3>
+
+                <p>
+                  Paying for traffic is only half of the equation.
+                  Your product page needs to communicate the value,
+                  remove objections, create desire and make purchasing
+                  frictionless.
+                </p>
+
+                <div class="step-points">
+                  <span>Landing Page</span>
+                  <span>Product Page</span>
+                  <span>Social Proof</span>
+                  <span>Objection Handling</span>
+                  <span>Conversion Rate</span>
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <!-- STEP 06 -->
+            <div class="step">
+
+              <div class="step-number">
+                06
+              </div>
+
+              <div class="step-card">
+
+                <div class="small-label">
+                  SCALE
+                </div>
+
+                <h3>
+                  Scale What Works
+                </h3>
+
+                <p>
+                  Once your offer, creatives, campaigns and website
+                  are working together, you can begin increasing spend
+                  while continuously feeding the system with new
+                  creative variations and testing new opportunities.
+                </p>
+
+                <div class="step-points">
+                  <span>Winners</span>
+                  <span>New Concepts</span>
+                  <span>Budget Scaling</span>
+                  <span>Retention</span>
+                  <span>Profitability</span>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           $100K SECTION
+      ========================= -->
+
+      <section class="goal-section">
+
+        <div class="container">
+
+          <div class="goal-box">
+
+            <h2>
+              $100K+/month
+              isn't one tactic.
+            </h2>
+
+            <p>
+              It's the result of building an ecommerce acquisition
+              system where every part supports the next.
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           CHECKLIST
+      ========================= -->
+
+      <section class="section">
+
+        <div class="container">
+
+          <div class="section-header">
+
+            <div class="section-number">
+              YOUR CHECKLIST
+            </div>
+
+            <h2>
+              Before you increase<br>
+              your ad budget...
+            </h2>
+
+            <p>
+              Make sure these pieces are actually working.
+            </p>
+
+          </div>
+
+
+          <div class="checklist">
+
+            <div class="check">
+
+              <div class="checkmark">
+                ✓
+              </div>
+
+              <p>
+                You know exactly who your best customers are.
+              </p>
+
+            </div>
+
+
+            <div class="check">
+
+              <div class="checkmark">
+                ✓
+              </div>
+
+              <p>
+                Your offer gives people a clear reason to buy.
+              </p>
+
+            </div>
+
+
+            <div class="check">
+
+              <div class="checkmark">
+                ✓
+              </div>
+
+              <p>
+                You have multiple creative angles and concepts.
+              </p>
+
+            </div>
+
+
+            <div class="check">
+
+              <div class="checkmark">
+                ✓
+              </div>
+
+              <p>
+                Your Meta campaign structure supports testing and
+                scaling.
+              </p>
+
+            </div>
+
+
+            <div class="check">
+
+              <div class="checkmark">
+                ✓
+              </div>
+
+              <p>
+                Your website converts paid traffic efficiently.
+              </p>
+
+            </div>
+
+
+            <div class="check">
+
+              <div class="checkmark">
+                ✓
+              </div>
+
+              <p>
+                You have a process for continuously testing new
+                creatives.
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =========================
+           FINAL CTA
+      ========================= -->
+
+      <section class="final-cta">
+
+        <div class="container">
+
+          <h2>
+            Stop trying to scale ads.
+            Start building a system.
+          </h2>
+
+          <p>
+            Get the roadmap and identify the bottleneck that's
+            preventing your ecommerce brand from reaching the next
+            level.
+          </p>
+
+          <a
+            href="#apply"
+            class="cta-button"
+          >
+            GET THE ROADMAP →
+          </a>
+
+        </div>
+
+      </section>
+
+
+    </div>
+
+
+    <!-- =========================
+         LOCK OVERLAY
+    ========================= -->
+
+    <div class="lock-overlay">
+
+      <div class="lock-box">
+
+        <div class="lock-icon">
+          🔒
+        </div>
+
+        <h3>
+          Roadmap Locked
+        </h3>
 
         <p>
-          Most ecommerce brands try to scale by simply putting more money
-          behind the same ads. Then performance drops, CPA increases,
-          and everyone blames the algorithm.
+          I've built a step-by-step roadmap showing what needs to
+          change before an ecommerce brand can scale its ads
+          profitably.
         </p>
 
-        <p style="margin-top:14px;">
-          The real problem is usually the system behind the ads.
+        <p style="margin-top:10px;">
+          <span class="lock-highlight">
+            Fill out the 6 questions above to unlock everything.
+          </span>
         </p>
 
-      </div>
-
-      <div class="problem-grid">
-
-        <div class="problem-card">
-          <div class="problem-icon">01</div>
-          <h3>Weak Creative</h3>
-          <p>
-            You're running ads, but your creatives aren't communicating
-            the right message to the right customer.
-          </p>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-icon">02</div>
-          <h3>Wrong Structure</h3>
-          <p>
-            Your campaigns and ad sets aren't designed around a clear
-            testing and scaling system.
-          </p>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-icon">03</div>
-          <h3>Low CVR</h3>
-          <p>
-            You're sending expensive traffic to a website that isn't
-            doing enough to convert that traffic.
-          </p>
-        </div>
-
-        <div class="problem-card">
-          <div class="problem-icon">04</div>
-          <h3>Weak Offer</h3>
-          <p>
-            Even great ads struggle when the customer doesn't have a
-            compelling reason to buy now.
-          </p>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- ROADMAP -->
-  <section class="section" id="roadmap">
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-number">
-          THE ROADMAP
-        </div>
-
-        <h2>
-          The system behind<br>
-          scalable ecommerce growth.
-        </h2>
-
-        <p>
-          To build a brand capable of reaching $100K+/month, you need
-          multiple parts of the acquisition system working together.
-        </p>
-
-      </div>
-
-      <div class="roadmap">
-
-        <div class="roadmap-line"></div>
-
-        <!-- STEP 01 -->
-        <div class="step">
-
-          <div class="step-number">
-            01
-          </div>
-
-          <div class="step-card">
-
-            <div class="small-label">
-              FOUNDATION
-            </div>
-
-            <h3>Know Your Customer</h3>
-
-            <p>
-              Before making ads, understand exactly who you're speaking
-              to, what they want, what they fear, what they've tried,
-              and what would make them believe your product can solve
-              their problem.
-            </p>
-
-            <div class="step-points">
-              <span>Customer Research</span>
-              <span>Personas</span>
-              <span>Pain Points</span>
-              <span>Desires</span>
-              <span>Buying Triggers</span>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- STEP 02 -->
-        <div class="step">
-
-          <div class="step-number">
-            02
-          </div>
-
-          <div class="step-card">
-
-            <div class="small-label">
-              OFFER
-            </div>
-
-            <h3>Create an Offer People Want</h3>
-
-            <p>
-              Your product isn't always the problem. Sometimes the
-              customer simply isn't getting enough value, urgency,
-              proof or risk reversal to make the purchase.
-            </p>
-
-            <div class="step-points">
-              <span>Value</span>
-              <span>Bonus</span>
-              <span>Urgency</span>
-              <span>Risk Reversal</span>
-              <span>Bundle Strategy</span>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- STEP 03 -->
-        <div class="step">
-
-          <div class="step-number">
-            03
-          </div>
-
-          <div class="step-card">
-
-            <div class="small-label">
-              CREATIVE
-            </div>
-
-            <h3>Build a Creative Testing Machine</h3>
-
-            <p>
-              Scaling requires more than one winning ad. You need a
-              consistent stream of new creative concepts, hooks,
-              angles, formats and messages.
-            </p>
-
-            <div class="step-points">
-              <span>UGC</span>
-              <span>Founder Story</span>
-              <span>Problem / Solution</span>
-              <span>Before & After</span>
-              <span>US vs Them</span>
-              <span>Testimonials</span>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- STEP 04 -->
-        <div class="step">
-
-          <div class="step-number">
-            04
-          </div>
-
-          <div class="step-card">
-
-            <div class="small-label">
-              META ADS
-            </div>
-
-            <h3>Build the Right Campaign Structure</h3>
-
-            <p>
-              Your account structure should make testing, learning and
-              scaling easier—not create unnecessary fragmentation.
-              The goal is to systematically identify winning
-              combinations and allocate more budget toward them.
-            </p>
-
-            <div class="step-points">
-              <span>Campaign Structure</span>
-              <span>Ad Set Strategy</span>
-              <span>Creative Testing</span>
-              <span>Budget Allocation</span>
-              <span>Scaling</span>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- STEP 05 -->
-        <div class="step">
-
-          <div class="step-number">
-            05
-          </div>
-
-          <div class="step-card">
-
-            <div class="small-label">
-              WEBSITE
-            </div>
-
-            <h3>Turn Traffic Into Customers</h3>
-
-            <p>
-              Paying for traffic is only half of the equation.
-              Your product page needs to communicate the value,
-              remove objections, create desire and make purchasing
-              frictionless.
-            </p>
-
-            <div class="step-points">
-              <span>Landing Page</span>
-              <span>Product Page</span>
-              <span>Social Proof</span>
-              <span>Objection Handling</span>
-              <span>Conversion Rate</span>
-            </div>
-
-          </div>
-        </div>
-
-
-        <!-- STEP 06 -->
-        <div class="step">
-
-          <div class="step-number">
-            06
-          </div>
-
-          <div class="step-card">
-
-            <div class="small-label">
-              SCALE
-            </div>
-
-            <h3>Scale What Works</h3>
-
-            <p>
-              Once your offer, creatives, campaigns and website are
-              working together, you can begin increasing spend while
-              continuously feeding the system with new creative
-              variations and testing new opportunities.
-            </p>
-
-            <div class="step-points">
-              <span>Winners</span>
-              <span>New Concepts</span>
-              <span>Budget Scaling</span>
-              <span>Retention</span>
-              <span>Profitability</span>
-            </div>
-
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- $100K GOAL -->
-  <section class="goal-section">
-    <div class="container">
-
-      <div class="goal-box">
-
-        <h2>
-          $100K+/month isn't one tactic.
-        </h2>
-
-        <p>
-          It's the result of building an ecommerce acquisition system
-          where every part supports the next.
-        </p>
-
-      </div>
-
-    </div>
-  </section>
-
-
-  <!-- WHAT YOU NEED -->
-  <section class="section">
-
-    <div class="container">
-
-      <div class="section-header">
-
-        <div class="section-number">
-          YOUR CHECKLIST
-        </div>
-
-        <h2>
-          Before you increase<br>
-          your ad budget...
-        </h2>
-
-        <p>
-          Make sure these pieces are actually working.
-        </p>
-
-      </div>
-
-      <div class="checklist">
-
-        <div class="check">
-          <div class="checkmark">✓</div>
-          <p>
-            You know exactly who your best customers are.
-          </p>
-        </div>
-
-        <div class="check">
-          <div class="checkmark">✓</div>
-          <p>
-            Your offer gives people a clear reason to buy.
-          </p>
-        </div>
-
-        <div class="check">
-          <div class="checkmark">✓</div>
-          <p>
-            You have multiple creative angles and concepts.
-          </p>
-        </div>
-
-        <div class="check">
-          <div class="checkmark">✓</div>
-          <p>
-            Your Meta campaign structure supports testing and scaling.
-          </p>
-        </div>
-
-        <div class="check">
-          <div class="checkmark">✓</div>
-          <p>
-            Your website converts paid traffic efficiently.
-          </p>
-        </div>
-
-        <div class="check">
-          <div class="checkmark">✓</div>
-          <p>
-            You have a process for continuously testing new creatives.
-          </p>
-        </div>
+        <button
+          class="unlock-btn"
+          type="button"
+          onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})"
+        >
+          UNLOCK THE ROADMAP →
+        </button>
 
       </div>
 
     </div>
 
-  </section>
+  </div>
 
 
-  <!-- FINAL CTA -->
-  <section class="final-cta">
+  <!-- =========================
+       FOOTER
+  ========================= -->
 
-    <div class="container">
-
-      <h2>
-        Stop trying to scale ads.
-        Start building a system.
-      </h2>
-
-      <p>
-        Get the roadmap and identify the bottleneck that's preventing
-        your ecommerce brand from reaching the next level.
-      </p>
-
-      <a href="#apply" class="cta-button">
-        GET THE ROADMAP →
-      </a>
-
-    </div>
-
-  </section>
-
-
-  <!-- FOOTER -->
   <footer>
+
     <div class="container">
       © 2026 Issam Scales — Performance Marketing & Creative Strategy
     </div>
+
   </footer>
 
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
 
   <script>
 
     /*
     ==========================================
-    LEAD FORM SUBMISSION
+    GOOGLE APPS SCRIPT URL
     ==========================================
 
-    Replace the URL below with your Google Apps Script
-    Web App URL when you're ready to connect this
-    form to Google Sheets.
+    Paste your deployed Google Apps Script
+    Web App URL between the quotes.
+
+    Example:
+
+    const GOOGLE_SCRIPT_URL =
+      "https://script.google.com/macros/s/XXXX/exec";
+
+    ==========================================
     */
 
     const GOOGLE_SCRIPT_URL = "";
 
-    const form = document.getElementById("leadForm");
-    const successMessage = document.getElementById("successMessage");
 
-    form.addEventListener("submit", async function (event) {
+    const form =
+      document.getElementById("leadForm");
 
-      event.preventDefault();
+    const successMessage =
+      document.getElementById("successMessage");
 
-      const submitButton = form.querySelector(".submit-btn");
+    const lockedContent =
+      document.getElementById("lockedContent");
 
-      submitButton.disabled = true;
-      submitButton.textContent = "SUBMITTING...";
 
-      const formData = {
-        name: document.getElementById("name").value,
-        phone: document.getElementById("phone").value,
-        website: document.getElementById("website").value,
-        adSpend: document.getElementById("adSpend").value,
-        videoContent: document.getElementById("videoContent").value,
-        revenue: document.getElementById("revenue").value,
-        timestamp: new Date().toISOString()
-      };
+    form.addEventListener(
+      "submit",
+      async function(event) {
 
-      try {
+        event.preventDefault();
 
-        /*
-        If GOOGLE_SCRIPT_URL is empty,
-        the form will still work visually.
-        */
 
-        if (GOOGLE_SCRIPT_URL) {
+        const submitButton =
+          form.querySelector(".submit-btn");
 
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "application/json"
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+          "SUBMITTING...";
+
+
+        const formData = {
+
+          name:
+            document.getElementById("name").value,
+
+          phone:
+            document.getElementById("phone").value,
+
+          website:
+            document.getElementById("website").value,
+
+          adSpend:
+            document.getElementById("adSpend").value,
+
+          videoContent:
+            document.getElementById("videoContent").value,
+
+          revenue:
+            document.getElementById("revenue").value,
+
+          timestamp:
+            new Date().toISOString()
+
+        };
+
+
+        try {
+
+
+          /*
+          ==========================================
+          SEND DATA TO GOOGLE SHEETS
+          ==========================================
+          */
+
+          if (GOOGLE_SCRIPT_URL) {
+
+            await fetch(
+              GOOGLE_SCRIPT_URL,
+              {
+                method: "POST",
+
+                mode: "no-cors",
+
+                headers: {
+                  "Content-Type":
+                    "application/json"
+                },
+
+                body:
+                  JSON.stringify(formData)
+              }
+            );
+
+          }
+
+
+          /*
+          ==========================================
+          SHOW SUCCESS MESSAGE
+          ==========================================
+          */
+
+          successMessage.style.display =
+            "block";
+
+
+          submitButton.textContent =
+            "ROADMAP UNLOCKED ✓";
+
+
+          /*
+          ==========================================
+          UNLOCK THE ROADMAP
+          ==========================================
+          */
+
+          lockedContent.classList.add(
+            "is-unlocked"
+          );
+
+
+          /*
+          ==========================================
+          SCROLL TO ROADMAP
+          ==========================================
+          */
+
+          setTimeout(
+            function() {
+
+              document
+                .getElementById("roadmap")
+                .scrollIntoView({
+                  behavior: "smooth",
+                  block: "start"
+                });
+
             },
-            body: JSON.stringify(formData)
-          });
+            700
+          );
+
+
+        } catch (error) {
+
+
+          console.error(error);
+
+
+          submitButton.disabled =
+            false;
+
+
+          submitButton.textContent =
+            "TRY AGAIN →";
+
+
+          alert(
+            "Something went wrong. Please try again."
+          );
 
         }
 
-        successMessage.style.display = "block";
-
-        submitButton.textContent = "SUBMITTED ✓";
-
-        // Scroll to roadmap
-        setTimeout(() => {
-          document.getElementById("roadmap").scrollIntoView({
-            behavior: "smooth"
-          });
-        }, 600);
-
-      } catch (error) {
-
-        console.error(error);
-
-        submitButton.disabled = false;
-        submitButton.textContent = "TRY AGAIN →";
-
-        alert(
-          "Something went wrong. Please try again."
-        );
-
       }
-
-    });
+    );
 
   </script>
 
