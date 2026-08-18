@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Top Metrics for Ecom Brands — a practical Meta Ads and Shopify metric guide for ecommerce brands in Lebanon." />
+  <title>Top Metrics for Ecom Brands | Issam Scales</title>
+
+  <style>
+    :root {
+      --bg: #090909;
+      --panel: #111111;
+      --panel-2: #151515;
+      --border: rgba(255,255,255,.10);
+      --text: #f6f6f6;
+      --muted: #a4a4a4;
+      --soft: #d9d9d9;
+      --accent: #ffffff;
+      --green: #59d18f;
+      --danger: #ff7d7d;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 24px;
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(255,255,255,.08), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+
+    .container {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    .nav {
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: -.03em;
+      font-size: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.035);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px rgba(89,209,143,.7);
+    }
+
+    .hero {
+      padding: 78px 0 45px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      max-width: 880px;
+      margin: 18px auto 20px;
+      font-size: clamp(42px, 7vw, 78px);
+      line-height: .98;
+      letter-spacing: -.055em;
+    }
+
+    .hero h1 span {
+      color: #a5a5a5;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: clamp(17px, 2vw, 20px);
+    }
+
+    .section {
+      padding: 35px 0 90px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .form-card {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 34px;
+      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.025));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .form-card h2 {
+      margin: 0 0 8px;
+      font-size: 29px;
+      letter-spacing: -.03em;
+    }
+
+    .form-card .sub {
+      margin: 0 0 26px;
+      color: var(--muted);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #dedede;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 15px 15px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #0c0c0c;
+      color: white;
+      font: inherit;
+      outline: none;
+      transition: .2s ease;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(255,255,255,.4);
+      box-shadow: 0 0 0 4px rgba(255,255,255,.05);
+    }
+
+    .help {
+      margin-top: 7px;
+      color: #7f7f7f;
+      font-size: 12px;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 16px 18px;
+      border: 0;
+      border-radius: 14px;
+      background: white;
+      color: #080808;
+      font-weight: 800;
+      font-size: 16px;
+      cursor: pointer;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+
+    .submit-btn:hover { transform: translateY(-2px); }
+    .submit-btn:active { transform: translateY(0); }
+
+    .fine-print {
+      margin: 12px 0 0;
+      text-align: center;
+      color: #707070;
+      font-size: 12px;
+    }
+
+    .resource {
+      display: none;
+      padding: 25px 0 100px;
+    }
+
+    .resource.show { display: block; }
+
+    .resource-intro {
+      max-width: 800px;
+      margin-bottom: 35px;
+    }
+
+    .eyebrow {
+      color: #8d8d8d;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .resource h2 {
+      margin: 10px 0 12px;
+      font-size: clamp(34px, 5vw, 56px);
+      line-height: 1;
+      letter-spacing: -.05em;
+    }
+
+    .resource-intro p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .section-title {
+      margin: 48px 0 18px;
+      font-size: 24px;
+      letter-spacing: -.03em;
+    }
+
+    .metric-group {
+      margin-top: 16px;
+      padding: 24px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+    }
+
+    .metric-group h3 {
+      margin: 0 0 16px;
+      font-size: 18px;
+      letter-spacing: -.02em;
+    }
+
+    .metric-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .metric {
+      padding: 14px 15px;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(255,255,255,.02);
+      border-radius: 13px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+      display: block;
+    }
+
+    .callout {
+      margin: 32px 0 0;
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+
+    .callout strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .footer {
+      padding: 35px 0 55px;
+      border-top: 1px solid rgba(255,255,255,.06);
+      color: #6f6f6f;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    @media (max-width: 720px) {
+      .container { width: min(var(--max), calc(100% - 24px)); }
+      .hero { padding-top: 55px; }
+      .form-card { padding: 22px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .field.full { grid-column: auto; }
+      .metric-group { padding: 18px; }
+      .nav-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div class="brand">ISSAM SCALES</div>
+      <div class="badge"><span class="dot"></span> Ecom Performance & Creative Strategy</div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="badge">Free Ecom Resource</div>
+        <h1>Know the numbers that actually <span>move your store.</span></h1>
+        <p>
+          Get my practical list of the most useful Meta Ads + Shopify metrics for ecommerce brands,
+          so you can stop looking at vanity metrics and start diagnosing what is actually happening.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="form-card">
+          <h2>First, tell me about your brand.</h2>
+          <p class="sub">This takes less than a minute. Then you'll unlock the metric guide below.</p>
+
+          <form id="leadForm">
+            <div class="form-grid">
+
+              <div class="field">
+                <label for="firstName">First Name *</label>
+                <input id="firstName" name="firstName" type="text" required placeholder="Issam" />
+              </div>
+
+              <div class="field">
+                <label for="lastName">Last Name *</label>
+                <input id="lastName" name="lastName" type="text" required placeholder="Ramadan" />
+              </div>
+
+              <div class="field">
+                <label for="phone">Phone Number *</label>
+                <input id="phone" name="phone" type="tel" required placeholder="+961 XX XXX XXX" />
+              </div>
+
+              <div class="field">
+                <label for="website">Brand Website / Instagram *</label>
+                <input id="website" name="website" type="text" required placeholder="https://... or @yourbrand" />
+                <div class="help">No website? Your Instagram profile is completely fine.</div>
+              </div>
+
+              <div class="field">
+                <label for="adSpend">Monthly Ad Spend *</label>
+                <select id="adSpend" name="adSpend" required>
+                  <option value="">Select a range</option>
+                  <option>Under $500</option>
+                  <option>$500 – $1,000</option>
+                  <option>$1,000 – $3,000</option>
+                  <option>$3,000 – $5,000</option>
+                  <option>$5,000 – $10,000</option>
+                  <option>$10,000+</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="videoContent">Do you have someone to do your video content? *</label>
+                <select id="videoContent" name="videoContent" required>
+                  <option value="">Select one</option>
+                  <option>Yes — in-house</option>
+                  <option>Yes — freelancer / agency</option>
+                  <option>No — I do it myself</option>
+                  <option>No — we don't have a consistent video system</option>
+                </select>
+              </div>
+
+              <div class="field full">
+                <label for="revenue">Monthly Revenue *</label>
+                <select id="revenue" name="revenue" required>
+                  <option value="">Select a range</option>
+                  <option>Under $2,000</option>
+                  <option>$2,000 – $5,000</option>
+                  <option>$5,000 – $10,000</option>
+                  <option>$10,000 – $25,000</option>
+                  <option>$25,000 – $50,000</option>
+                  <option>$50,000+</option>
+                </select>
+              </div>
+            </div>
+
+            <button class="submit-btn" type="submit">Unlock the Top Ecom Metrics →</button>
+            <p class="fine-print">No spam. Just the resource and, where relevant, useful ecommerce insights.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="resource" class="resource">
+      <div class="container">
+
+        <div class="resource-intro">
+          <div class="eyebrow">Your Resource</div>
+          <h2>Top Metrics for Ecom Brands</h2>
+          <p>
+            Use this as a diagnostic checklist across your Meta Ads account and Shopify.
+            The goal is not to track everything. The goal is to understand exactly where performance is breaking.
+          </p>
+        </div>
+
+        <div class="callout">
+          <strong>How to use this</strong>
+          <span>
+            Start with the lower-funnel numbers first, then work backwards through clicks, landing pages,
+            and video engagement. When one stage is weak, investigate the stage immediately before it.
+          </span>
+        </div>
+
+        <h3 class="section-title">Meta Ads — Video & Funnel Metrics</h3>
+
+        <div class="metric-group">
+          <h3>Video Performance</h3>
+          <div class="metric-list">
+            <div class="metric">
+              <strong>Video Average Playtime</strong>
+              <span>Average amount of time people watch the video.</span>
+            </div>
+
+            <div class="metric">
+              <strong>V% — 3 Sec VP / Impressions</strong>
+              <span>3-second video plays ÷ Impressions</span>
+            </div>
+
+            <div class="metric">
+              <strong>V% — 3 Sec VP / LPV / Step #1</strong>
+              <span>Landing page views ÷ 3-second video plays</span>
+            </div>
+
+            <div class="metric">
+              <strong>V% — 3 Sec VP / ATC / Step #2</strong>
+              <span>Adds to cart ÷ 3-second video plays</span>
+            </div>
+
+            <div class="metric">
+              <strong>V% — 3 Sec VP / CI / Step #3</strong>
+              <span>Checkouts initiated ÷ 3-second video plays</span>
+            </div>
+
+            <div class="metric">
+              <strong>V% — 3 Sec VP / PUR / Goal</strong>
+              <span>Purchases ÷ 3-second video plays</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>25% Video Completion Funnel</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>V% — 25% Comp / LPV / Step #1</strong><span>Landing page views ÷ Video plays at 25%</span></div>
+            <div class="metric"><strong>V% — 25% Comp / ATC / Step #2</strong><span>Adds to cart ÷ Video plays at 25%</span></div>
+            <div class="metric"><strong>V% — 25% Comp / CI / Step #3</strong><span>Checkouts initiated ÷ Video plays at 25%</span></div>
+            <div class="metric"><strong>V% — 25% Comp / PUR / Goal</strong><span>Purchases ÷ Video plays at 25%</span></div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>50% Video Completion Funnel</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>V% — 50% Comp / LPV / Step #1</strong><span>Landing page views ÷ Video plays at 50%</span></div>
+            <div class="metric"><strong>V% — 50% Comp / ATC / Step #2</strong><span>Adds to cart ÷ Video plays at 50%</span></div>
+            <div class="metric"><strong>V% — 50% Comp / CI / Step #3</strong><span>Checkouts initiated ÷ Video plays at 50%</span></div>
+            <div class="metric"><strong>V% — 50% Comp / PUR / Goal</strong><span>Purchases ÷ Video plays at 50%</span></div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>75% Video Completion Funnel</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>V% — 75% Comp / LPV / Step #1</strong><span>Landing page views ÷ Video plays at 75%</span></div>
+            <div class="metric"><strong>V% — 75% Comp / ATC / Step #2</strong><span>Adds to cart ÷ Video plays at 75%</span></div>
+            <div class="metric"><strong>V% — 75% Comp / CI / Step #3</strong><span>Checkouts initiated ÷ Video plays at 75%</span></div>
+            <div class="metric"><strong>V% — 75% Comp / PUR / Goal</strong><span>Purchases ÷ Video plays at 75%</span></div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>100% Video Completion Funnel</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>V% — 100% Comp / LPV / Step #1</strong><span>Landing page views ÷ Video plays at 100%</span></div>
+            <div class="metric"><strong>V% — 100% Comp / ATC / Step #2</strong><span>Adds to cart ÷ Video plays at 100%</span></div>
+            <div class="metric"><strong>V% — 100% Comp / CI / Step #3</strong><span>Checkouts initiated ÷ Video plays at 100%</span></div>
+            <div class="metric"><strong>V% — 100% Comp / PUR / Goal</strong><span>Purchases ÷ Video plays at 100%</span></div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>Click & Landing Page Metrics</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>Unique Outbound Clicks</strong><span>Number of unique people who clicked out to the destination.</span></div>
+            <div class="metric"><strong>Cost per Unique Outbound Click</strong><span>Total spend ÷ unique outbound clicks.</span></div>
+            <div class="metric"><strong>Unique Outbound CTR</strong><span>Unique outbound clicks ÷ impressions.</span></div>
+            <div class="metric"><strong>Landing Page Views</strong><span>Number of recorded landing page views.</span></div>
+            <div class="metric"><strong>Cost per Landing Page View</strong><span>Total spend ÷ landing page views.</span></div>
+            <div class="metric"><strong>LPVR (Landing Page View Rate)</strong><span>Landing page views ÷ impressions.</span></div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>Conversion Rate by Funnel Step</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>CR% — Outbound Click / LPV</strong><span>Landing page views ÷ outbound clicks</span></div>
+            <div class="metric"><strong>CR% — Outbound Click / ATC</strong><span>Adds to cart ÷ outbound clicks</span></div>
+            <div class="metric"><strong>CR% — Outbound Click / CI</strong><span>Checkouts initiated ÷ outbound clicks</span></div>
+            <div class="metric"><strong>CR% — Outbound Click / PUR</strong><span>Purchases ÷ outbound clicks</span></div>
+            <div class="metric"><strong>LPV% — LPV / ATC</strong><span>Adds to cart ÷ landing page views</span></div>
+            <div class="metric"><strong>LPV% — LPV / CI</strong><span>Checkouts initiated ÷ landing page views</span></div>
+            <div class="metric"><strong>LPV% — LPV / PUR</strong><span>Purchases ÷ landing page views</span></div>
+          </div>
+        </div>
+
+        <h3 class="section-title">Meta Ads + Shopify — Revenue Metrics</h3>
+
+        <div class="metric-group">
+          <h3>Revenue & Efficiency</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>Purchases Conversion Value</strong><span>Total conversion value attributed to purchases.</span></div>
+            <div class="metric"><strong>Purchase ROAS</strong><span>Return on ad spend from purchases.</span></div>
+            <div class="metric"><strong>AOV</strong><span>Purchases conversion value ÷ purchases</span></div>
+            <div class="metric"><strong>EPC (Earnings Per Click)</strong><span>Purchases conversion value ÷ link clicks</span></div>
+            <div class="metric"><strong>Purchases</strong><span>Total number of purchases attributed to the measurement setup.</span></div>
+            <div class="metric"><strong>Cost per Purchase</strong><span>Total spend ÷ purchases.</span></div>
+          </div>
+        </div>
+
+        <div class="metric-group">
+          <h3>Checkout & Cart Metrics</h3>
+          <div class="metric-list">
+            <div class="metric"><strong>Checkouts Initiated</strong><span>Number of checkout sessions initiated.</span></div>
+            <div class="metric"><strong>Cost per Checkout Initiated</strong><span>Total spend ÷ checkouts initiated.</span></div>
+            <div class="metric"><strong>Adds to Cart</strong><span>Number of add-to-cart events.</span></div>
+            <div class="metric"><strong>Cost per Add to Cart</strong><span>Total spend ÷ adds to cart.</span></div>
+            <div class="metric"><strong>Outbound Clicks</strong><span>Total outbound clicks.</span></div>
+            <div class="metric"><strong>Cost per Outbound Click</strong><span>Total spend ÷ outbound clicks.</span></div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>The point isn't to stare at 30+ numbers.</strong>
+          <span>
+            The point is to find the bottleneck: creative → click → landing page → cart → checkout → purchase.
+            Once you know the broken step, you know what to test next.
+          </span>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      © <span id="year"></span> Issam Scales — Performance Marketing & Creative Strategy for Ecommerce Brands in Lebanon.
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById("leadForm");
+    const resource = document.getElementById("resource");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // IMPORTANT:
+      // This demo unlocks the resource locally.
+      // Connect this submit handler to your Google Apps Script / CRM / webhook
+      // when you want to actually save the lead information.
+      const data = Object.fromEntries(new FormData(form).entries());
+      console.log("Lead:", data);
+
+      resource.classList.add("show");
+      resource.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
