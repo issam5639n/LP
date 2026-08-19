@@ -559,6 +559,80 @@
     }
 
     /* =========================
+       LOCKED CONTENT
+    ========================= */
+
+    .locked-content {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .locked-inner {
+      filter: blur(8px);
+      transition: filter 0.5s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: clamp(180px, 22vh, 300px);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .lock-message {
+      width: min(90%, 430px);
+      padding: 28px 30px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 18px;
+      background: rgba(17, 17, 17, 0.92);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+      backdrop-filter: blur(12px);
+      color: white;
+    }
+
+    .lock-icon {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      color: var(--black);
+      font-size: 25px;
+    }
+
+    .lock-message h3 {
+      font-size: 22px;
+      letter-spacing: -0.7px;
+      margin-bottom: 7px;
+    }
+
+    .lock-message p {
+      color: #bdbdbd;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .locked-content.unlocked .locked-inner {
+      filter: none;
+      user-select: auto;
+      pointer-events: auto;
+    }
+
+    .locked-content.unlocked .lock-overlay {
+      display: none;
+    }
+
+    /* =========================
        RESPONSIVE
     ========================= */
 
@@ -867,10 +941,18 @@
 
 
     <!-- =========================
-         ROADMAP
+         LOCKED CONTENT
     ========================= -->
 
-    <section id="roadmap">
+    <div id="lockedContent" class="locked-content">
+
+      <div class="locked-inner">
+
+        <!-- =========================
+             ROADMAP
+        ========================= -->
+
+        <section id="roadmap">
 
       <div class="container">
 
@@ -1394,6 +1476,18 @@
 
     </section>
 
+      </div>
+
+      <div class="lock-overlay" aria-hidden="true">
+        <div class="lock-message">
+          <div class="lock-icon">🔒</div>
+          <h3>Unlock The Creative Roadmap</h3>
+          <p>Fill out the form above to unlock the full roadmap, testing framework, creative formula and next steps.</p>
+        </div>
+      </div>
+
+    </div>
+
   </main>
 
 
@@ -1425,11 +1519,8 @@
   <script>
 
   const form = document.getElementById("leadForm");
-  const roadmap = document.getElementById("roadmap");
+  const lockedContent = document.getElementById("lockedContent");
   const errorMessage = document.getElementById("formError");
-
-  // Hide roadmap until the form is completed
-  roadmap.style.display = "none";
 
   form.addEventListener("submit", async function(event) {
 
@@ -1499,21 +1590,15 @@
       });
 
 
-      // Hide the form
+      // Hide the form and unlock the content
       document.querySelector(".form-section").style.display = "none";
+      lockedContent.classList.add("unlocked");
 
-
-      // Show the roadmap
-      roadmap.style.display = "block";
-
-
-      // Scroll to roadmap
+      // Scroll to the roadmap
       setTimeout(() => {
-
-        roadmap.scrollIntoView({
+        document.getElementById("roadmap").scrollIntoView({
           behavior: "smooth"
         });
-
       }, 100);
 
 
