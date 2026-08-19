@@ -608,51 +608,63 @@
     </div>
   </footer>
 
-  <script>
-    const form = document.getElementById("leadForm");
-    const resource = document.getElementById("resource");
+ <script>
+  const form = document.getElementById("leadForm");
+  const resource = document.getElementById("resource");
 
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx13XxG9Nw2og5Iqxy0OfBTNY5dCAU97BukF8YGTCmvGXkPj_omqrTUydbxgpIVWmT2/exec";
+  const SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbx13XxG9Nw2og5Iqxy0OfBTNY5dCAU97BukF8YGTCmvGXkPj_omqrTUydbxgpIVWmT2/exec";
 
-form.addEventListener("submit", async function (event) {
-  event.preventDefault();
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-  const submitButton = form.querySelector(".submit-btn");
-  submitButton.disabled = true;
-  submitButton.textContent = "Submitting...";
+    const submitButton = form.querySelector(".submit-btn");
 
-  const data = Object.fromEntries(new FormData(form).entries());
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting...";
 
-  try {
-    await fetch(SCRIPT_URL, {
-      method: "POST",
-      mode: "no-cors",
-      headers: {
-        "Content-Type": "text/plain;charset=utf-8"
-      },
-      body: JSON.stringify(data)
-    });
+    const data = Object.fromEntries(
+      new FormData(form).entries()
+    );
 
-    resource.classList.add("show");
+    try {
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(data)
+      });
 
-    resource.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+      // Unlock the resource
+      resource.classList.add("show");
 
-    form.reset();
+      // Scroll to the unlocked resource
+      resource.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
 
-  } catch (error) {
-    console.error(error);
+      // Reset form
+      form.reset();
 
-    alert("Something went wrong. Please try again.");
+      submitButton.disabled = false;
+      submitButton.textContent = "Unlocked ✓";
 
-    submitButton.disabled = false;
-    submitButton.textContent = "Unlock the Top Ecom Metrics →";
-  }
-});
+    } catch (error) {
+      console.error("Submission error:", error);
 
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+      alert("Something went wrong. Please try again.");
+
+      submitButton.disabled = false;
+      submitButton.textContent =
+        "Unlock the Top Ecom Metrics →";
+    }
+  });
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
+</script>
 </body>
 </html>
