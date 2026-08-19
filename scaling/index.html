@@ -1752,183 +1752,193 @@
   </footer>
 
 
-  <!-- =========================
-       JAVASCRIPT
-  ========================= -->
+<!-- =========================
+     JAVASCRIPT
+========================= -->
 
-  <script>
+<script>
 
-    /*
-    ==========================================
-    GOOGLE APPS SCRIPT URL
-    ==========================================
- ==========================================
-    */
-  
+  /*
+  ==========================================
+  GOOGLE APPS SCRIPT URL
+  ==========================================
+  */
 
-    const GOOGLE_SCRIPT_URL =
+  const GOOGLE_SCRIPT_URL =
     "https://script.google.com/macros/s/AKfycbx13XxG9Nw2og5Iqxy0OfBTNY5dCAU97BukF8YGTCmvGXkPj_omqrTUydbxgpIVWmT2/exec";
-    
-     ==========================================
-    */
-
-    const GOOGLE_SCRIPT_URL = "";
 
 
-    const form =
-      document.getElementById("leadForm");
+  const form =
+    document.getElementById("leadForm");
 
-    const successMessage =
-      document.getElementById("successMessage");
+  const successMessage =
+    document.getElementById("successMessage");
 
-    const lockedContent =
-      document.getElementById("lockedContent");
-
-
-    form.addEventListener(
-      "submit",
-      async function(event) {
-
-        event.preventDefault();
+  const lockedContent =
+    document.getElementById("lockedContent");
 
 
-        const submitButton =
-          form.querySelector(".submit-btn");
+  form.addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
 
 
-        submitButton.disabled = true;
+      const submitButton =
+        form.querySelector(".submit-btn");
+
+
+      submitButton.disabled = true;
+
+      submitButton.textContent =
+        "SUBMITTING...";
+
+
+      /*
+      ==========================================
+      GET SELECTED VIDEO CONTENT
+      ==========================================
+      */
+
+      const selectedVideoContent =
+        document.querySelector(
+          'input[name="videoContent"]:checked'
+        );
+
+
+      /*
+      ==========================================
+      COLLECT FORM DATA
+      ==========================================
+      */
+
+      const formData = {
+
+        name:
+          document.getElementById("name").value.trim(),
+
+        phone:
+          document.getElementById("phone").value.trim(),
+
+        website:
+          document.getElementById("website").value.trim(),
+
+        adSpend:
+          document.getElementById("adSpend").value,
+
+        videoContent:
+          selectedVideoContent
+            ? selectedVideoContent.value
+            : "",
+
+        revenue:
+          document.getElementById("revenue").value,
+
+        timestamp:
+          new Date().toISOString()
+
+      };
+
+
+      try {
+
+        /*
+        ==========================================
+        SEND DATA TO GOOGLE SHEETS
+        ==========================================
+        */
+
+        await fetch(
+          GOOGLE_SCRIPT_URL,
+          {
+            method: "POST",
+
+            mode: "no-cors",
+
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded;charset=UTF-8"
+            },
+
+            body:
+              new URLSearchParams(formData).toString()
+          }
+        );
+
+
+        /*
+        ==========================================
+        SHOW SUCCESS MESSAGE
+        ==========================================
+        */
+
+        successMessage.style.display =
+          "block";
+
 
         submitButton.textContent =
-          "SUBMITTING...";
+          "ROADMAP UNLOCKED ✓";
 
 
-        const formData = {
+        /*
+        ==========================================
+        UNLOCK THE ROADMAP
+        ==========================================
+        */
 
-          name:
-            document.getElementById("name").value,
-
-          phone:
-            document.getElementById("phone").value,
-
-          website:
-            document.getElementById("website").value,
-
-          adSpend:
-            document.getElementById("adSpend").value,
-
-          videoContent:
-            document.getElementById("videoContent").value,
-
-          revenue:
-            document.getElementById("revenue").value,
-
-          timestamp:
-            new Date().toISOString()
-
-        };
+        lockedContent.classList.add(
+          "is-unlocked"
+        );
 
 
-        try {
+        /*
+        ==========================================
+        SCROLL TO ROADMAP
+        ==========================================
+        */
+
+        setTimeout(
+          function() {
+
+            document
+              .getElementById("roadmap")
+              .scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+              });
+
+          },
+          700
+        );
 
 
-          /*
-          ==========================================
-          SEND DATA TO GOOGLE SHEETS
-          ==========================================
-          */
+      } catch (error) {
 
-          if (GOOGLE_SCRIPT_URL) {
-
-            await fetch(
-              GOOGLE_SCRIPT_URL,
-              {
-                method: "POST",
-
-                mode: "no-cors",
-
-                headers: {
-                  "Content-Type":
-                    "application/json"
-                },
-
-                body:
-                  JSON.stringify(formData)
-              }
-            );
-
-          }
+        console.error(
+          "Submission error:",
+          error
+        );
 
 
-          /*
-          ==========================================
-          SHOW SUCCESS MESSAGE
-          ==========================================
-          */
-
-          successMessage.style.display =
-            "block";
+        submitButton.disabled =
+          false;
 
 
-          submitButton.textContent =
-            "ROADMAP UNLOCKED ✓";
+        submitButton.textContent =
+          "TRY AGAIN →";
 
 
-          /*
-          ==========================================
-          UNLOCK THE ROADMAP
-          ==========================================
-          */
-
-          lockedContent.classList.add(
-            "is-unlocked"
-          );
-
-
-          /*
-          ==========================================
-          SCROLL TO ROADMAP
-          ==========================================
-          */
-
-          setTimeout(
-            function() {
-
-              document
-                .getElementById("roadmap")
-                .scrollIntoView({
-                  behavior: "smooth",
-                  block: "start"
-                });
-
-            },
-            700
-          );
-
-
-        } catch (error) {
-
-
-          console.error(error);
-
-
-          submitButton.disabled =
-            false;
-
-
-          submitButton.textContent =
-            "TRY AGAIN →";
-
-
-          alert(
-            "Something went wrong. Please try again."
-          );
-
-        }
+        alert(
+          "Something went wrong. Please try again."
+        );
 
       }
-    );
 
-  </script>
+    }
+  );
+
+</script>
 
 </body>
 </html>
