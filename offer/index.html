@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>How To Build An Iron Offer | Issam Scales</title>
+  <meta
+    name="description"
+    content="A practical framework for ecommerce brands in Lebanon and the Middle East to build an offer that makes the buying decision easier."
+  />
+
+  <link rel="icon" type="image/png" href="../is.png" />
+
+  <style>
+    :root {
+      --bg: #f6f6f3;
+      --card: #ffffff;
+      --text: #111111;
+      --muted: #6c6c6c;
+      --border: #e3e3df;
+      --black: #111111;
+      --soft: #eeeeea;
+      --success: #2f7d46;
+      --danger: #c54646;
+      --accent: #2563eb;
+      --max-width: 1120px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(92%, var(--max-width));
+      margin: 0 auto;
+    }
+
+    nav {
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+      background: rgba(246, 246, 243, 0.92);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo {
+      font-weight: 900;
+      font-size: 18px;
+      letter-spacing: -0.6px;
+    }
+
+    .nav-tag {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .hero {
+      padding: 78px 0 80px;
+    }
+
+    .hero-wrap {
+      max-width: 840px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--black);
+    }
+
+    h1 {
+      font-size: clamp(45px, 7vw, 82px);
+      line-height: 0.96;
+      letter-spacing: -4.5px;
+      margin-bottom: 23px;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin: 0 auto 38px;
+      font-size: 19px;
+      color: var(--muted);
+    }
+
+    .hero-copy strong {
+      color: var(--text);
+    }
+
+    .form-section {
+      padding: 0 0 100px;
+    }
+
+    .form-card {
+      width: min(92%, 840px);
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 36px;
+      box-shadow: 0 22px 70px rgba(0, 0, 0, 0.06);
+    }
+
+    .form-card-header {
+      margin-bottom: 28px;
+    }
+
+    .form-card-header h2 {
+      font-size: 27px;
+      letter-spacing: -1px;
+      margin-bottom: 7px;
+    }
+
+    .form-card-header p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .full-width {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 15px 16px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: #fafafa;
+      color: var(--text);
+      outline: none;
+      transition: 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--black);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.06);
+    }
+
+    .helper {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .radio-option {
+      position: relative;
+    }
+
+    .radio-option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio-option label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 17px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: #fafafa;
+      cursor: pointer;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .radio-option input:checked + label {
+      background: var(--black);
+      border-color: var(--black);
+      color: white;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 25px;
+      padding: 17px 20px;
+      border: none;
+      border-radius: 11px;
+      background: var(--black);
+      color: white;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
+    }
+
+    .submit-btn:disabled {
+      cursor: wait;
+      opacity: 0.65;
+      transform: none;
+    }
+
+    .privacy-note {
+      text-align: center;
+      margin-top: 13px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 14px;
+      padding: 12px 13px;
+      border-radius: 9px;
+      background: #fff1f1;
+      color: var(--danger);
+      font-size: 13px;
+    }
+
+    /* LOCKED AREA */
+    .locked-content {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .locked-inner {
+      filter: blur(8px);
+      transition: filter 0.55s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: clamp(180px, 24vh, 320px);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .lock-message {
+      width: min(92%, 460px);
+      padding: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
+      background: rgba(17, 17, 17, 0.95);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
+      color: white;
+      backdrop-filter: blur(12px);
+    }
+
+    .lock-icon {
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 15px;
+      border-radius: 50%;
+      background: white;
+      color: var(--black);
+      font-size: 25px;
+    }
+
+    .lock-message h3 {
+      font-size: 23px;
+      letter-spacing: -0.8px;
+      margin-bottom: 7px;
+    }
+
+    .lock-message p {
+      color: #bdbdbd;
+      font-size: 14px;
+    }
+
+    .locked-content.unlocked .locked-inner {
+      filter: none;
+      user-select: auto;
+      pointer-events: auto;
+    }
+
+    .locked-content.unlocked .lock-overlay {
+      display: none;
+    }
+
+    /* CONTENT */
+    #ironOffer {
+      background: var(--black);
+      color: white;
+      padding: 115px 0;
+    }
+
+    .intro {
+      max-width: 850px;
+      margin-bottom: 75px;
+    }
+
+    .dark-eyebrow {
+      color: #9d9d9d;
+    }
+
+    .dark-eyebrow::before {
+      background: white;
+    }
+
+    .intro h2 {
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -3.7px;
+      margin-bottom: 24px;
+    }
+
+    .intro p {
+      max-width: 730px;
+      color: #bdbdbd;
+      font-size: 18px;
+    }
+
+    .principles {
+      display: grid;
+      gap: 22px;
+      max-width: 930px;
+      margin: 0 auto;
+    }
+
+    .principle {
+      display: grid;
+      grid-template-columns: 58px 1fr;
+      gap: 25px;
+      padding: 31px 0;
+      border-top: 1px solid #2f2f2f;
+    }
+
+    .principle:last-child {
+      border-bottom: 1px solid #2f2f2f;
+    }
+
+    .num {
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: white;
+      color: #111;
+      font-weight: 900;
+      font-size: 14px;
+    }
+
+    .principle small {
+      display: block;
+      margin-bottom: 7px;
+      color: #8d8d8d;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+    }
+
+    .principle h3 {
+      font-size: 30px;
+      letter-spacing: -1.2px;
+      margin-bottom: 10px;
+    }
+
+    .principle p {
+      max-width: 740px;
+      color: #b4b4b4;
+      font-size: 15px;
+      margin-bottom: 16px;
+    }
+
+    .example {
+      max-width: 760px;
+      padding: 18px 20px;
+      border: 1px solid #343434;
+      border-radius: 13px;
+      background: #1b1b1b;
+    }
+
+    .example strong {
+      display: block;
+      margin-bottom: 7px;
+      color: white;
+      font-size: 13px;
+    }
+
+    .example p {
+      margin: 0;
+      color: #bdbdbd;
+      font-size: 14px;
+    }
+
+    .highlight {
+      color: white;
+      font-weight: 800;
+    }
+
+    .formula-wrap {
+      margin-top: 90px;
+    }
+
+    .formula-card {
+      padding: 50px;
+      border-radius: 22px;
+      background: white;
+      color: var(--black);
+      text-align: center;
+    }
+
+    .formula-card h3 {
+      font-size: clamp(35px, 5vw, 55px);
+      line-height: 1;
+      letter-spacing: -2.5px;
+      margin-bottom: 18px;
+    }
+
+    .formula-card p {
+      color: var(--muted);
+      max-width: 650px;
+      margin: 0 auto 30px;
+    }
+
+    .formula {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 9px;
+      align-items: center;
+      font-size: clamp(17px, 2.5vw, 23px);
+      font-weight: 900;
+    }
+
+    .formula span {
+      padding: 10px 15px;
+      border-radius: 10px;
+      background: #f4f4f2;
+      border: 1px solid #e2e2df;
+    }
+
+    .mistakes {
+      padding: 105px 0;
+      background: white;
+    }
+
+    .mistakes-header {
+      max-width: 780px;
+      margin-bottom: 45px;
+    }
+
+    .mistakes-header h2 {
+      font-size: clamp(38px, 5vw, 57px);
+      line-height: 1;
+      letter-spacing: -2.6px;
+      margin-bottom: 16px;
+    }
+
+    .mistakes-header p {
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .mistake-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .mistake-card {
+      padding: 27px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: #fafafa;
+    }
+
+    .mistake-card span {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 6px 9px;
+      border-radius: 7px;
+      background: #efefec;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .mistake-card h3 {
+      font-size: 23px;
+      letter-spacing: -0.8px;
+      margin-bottom: 8px;
+    }
+
+    .mistake-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .cta {
+      padding: 100px 0 120px;
+      text-align: center;
+    }
+
+    .cta h2 {
+      max-width: 850px;
+      margin: 0 auto 22px;
+      font-size: clamp(40px, 6vw, 70px);
+      line-height: 0.98;
+      letter-spacing: -3.5px;
+    }
+
+    .cta p {
+      max-width: 650px;
+      margin: 0 auto 28px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .cta-button {
+      display: inline-flex;
+      padding: 16px 26px;
+      border-radius: 11px;
+      background: var(--black);
+      color: white;
+      font-weight: 900;
+      transition: transform 0.2s ease;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+    }
+
+    footer {
+      padding: 24px 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    @media (max-width: 800px) {
+      .hero {
+        padding-top: 55px;
+      }
+
+      h1 {
+        letter-spacing: -2.5px;
+      }
+
+      .form-card {
+        padding: 24px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full-width {
+        grid-column: auto;
+      }
+
+      .mistake-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .principle {
+        grid-template-columns: 48px 1fr;
+        gap: 17px;
+      }
+
+      .num {
+        width: 45px;
+        height: 45px;
+      }
+
+      .principle h3 {
+        font-size: 25px;
+      }
+
+      .formula-card {
+        padding: 34px 20px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .nav-tag {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="logo">ISSAM SCALES</div>
+      <div class="nav-tag">Performance Marketing × Creative Strategy</div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-wrap">
+          <div class="eyebrow">Free Ecommerce Lead Magnet</div>
+
+          <h1>How To Build An Iron Offer.</h1>
+
+          <p class="hero-copy">
+            Your product can be good and your ads can still struggle.
+            The missing piece is often the <strong>offer</strong>:
+            what the customer gets, how fast they get the result,
+            why the risk feels low, and why they should act now.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="container">
+        <div class="form-card">
+          <div class="form-card-header">
+            <h2>Unlock the Iron Offer framework</h2>
+            <p>
+              Answer these 6 questions about your ecommerce brand.
+              Then the full guide will unlock instantly.
+            </p>
+          </div>
+
+          <form id="leadForm" novalidate>
+            <div class="form-grid">
+
+              <div class="form-group">
+                <label for="name">1. First & Last Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  placeholder="Your full name"
+                  autocomplete="name"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="phone">2. Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="+961 XX XXX XXX"
+                  autocomplete="tel"
+                  required
+                />
+              </div>
+
+              <div class="form-group full-width">
+                <label for="website">
+                  3. What's your brand's website?
+                </label>
+                <input
+                  type="text"
+                  id="website"
+                  name="website"
+                  placeholder="https://yourbrand.com or @yourinstagram"
+                  autocomplete="url"
+                  required
+                />
+                <span class="helper">
+                  Don't have a website? Enter your Instagram profile instead.
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label for="adSpend">
+                  4. How much are you spending on ads per month?
+                </label>
+                <select id="adSpend" name="adSpend" required>
+                  <option value="">Select one</option>
+                  <option value="$0 – $500">$0 – $500</option>
+                  <option value="$500 – $1,000">$500 – $1,000</option>
+                  <option value="$1,000 – $3,000">$1,000 – $3,000</option>
+                  <option value="$3,000 – $5,000">$3,000 – $5,000</option>
+                  <option value="$5,000 – $10,000">$5,000 – $10,000</option>
+                  <option value="$10,000+">$10,000+</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>5. Do you have someone doing your video content?</label>
+
+                <div class="radio-group">
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="videoYes"
+                      name="videoContent"
+                      value="Yes"
+                      required
+                    />
+                    <label for="videoYes">Yes</label>
+                  </div>
+
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="videoNo"
+                      name="videoContent"
+                      value="No"
+                    />
+                    <label for="videoNo">No</label>
+                  </div>
+
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="videoSometimes"
+                      name="videoContent"
+                      value="Sometimes"
+                    />
+                    <label for="videoSometimes">Sometimes</label>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group full-width">
+                <label for="revenue">6. What's your monthly revenue?</label>
+                <select id="revenue" name="revenue" required>
+                  <option value="">Select your range</option>
+                  <option value="Under $2,000">Under $2,000</option>
+                  <option value="$2,000 – $5,000">$2,000 – $5,000</option>
+                  <option value="$5,000 – $10,000">$5,000 – $10,000</option>
+                  <option value="$10,000 – $25,000">$10,000 – $25,000</option>
+                  <option value="$25,000 – $50,000">$25,000 – $50,000</option>
+                  <option value="$50,000+">$50,000+</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="formError" class="error-message">
+              Please complete all required fields before continuing.
+            </div>
+
+            <button type="submit" class="submit-btn">
+              Unlock The Iron Offer →
+            </button>
+
+            <p class="privacy-note">
+              Your information stays private and will only be used to contact you about your brand.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- LOCKED CONTENT -->
+    <div id="lockedContent" class="locked-content">
+      <div class="locked-inner">
+
+        <section id="ironOffer">
+          <div class="container">
+
+            <div class="intro">
+              <div class="eyebrow dark-eyebrow">The Iron Offer Framework</div>
+
+              <h2>
+                Stop selling a product.
+                Start selling a decision that feels obvious.
+              </h2>
+
+              <p>
+                An iron offer makes the customer think:
+                “This is exactly what I need, the value is clear,
+                the risk is low, and I have a reason to act.”
+              </p>
+            </div>
+
+            <div class="principles">
+
+              <article class="principle">
+                <div class="num">01</div>
+
+                <div>
+                  <small>Part 01 · Tangibility</small>
+
+                  <h3>Make the value specific.</h3>
+
+                  <p>
+                    “Our product is high quality” is vague.
+                    Give the buyer something they can understand,
+                    picture, and judge. Tie the product to a clear outcome,
+                    mechanism, quantity, or measurable value.
+                  </p>
+
+                  <div class="example">
+                    <strong>Weak:</strong>
+                    <p>“Premium skincare made for better skin.”</p>
+
+                    <br />
+
+                    <strong>Stronger:</strong>
+                    <p>
+                      “A 60-day daily skincare system designed to help
+                      improve the appearance of uneven texture and dryness.”
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="principle">
+                <div class="num">02</div>
+
+                <div>
+                  <small>Part 02 · Time</small>
+
+                  <h3>Give the result a timeframe.</h3>
+
+                  <p>
+                    People don't only ask “Will this work?”
+                    They also ask “How long until I see the point of buying this?”
+                    Give a realistic timeframe and connect the offer to the
+                    customer's desired result.
+                  </p>
+
+                  <div class="example">
+                    <strong>Example:</strong>
+                    <p>
+                      “Follow the system consistently for the next 30 days
+                      and know exactly what your routine is doing and why.”
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="principle">
+                <div class="num">03</div>
+
+                <div>
+                  <small>Part 03 · Risk Elimination</small>
+
+                  <h3>Make buying feel safer.</h3>
+
+                  <p>
+                    Every purchase has perceived risk:
+                    “What if it doesn't work for me?”
+                    Reduce that friction with a clear guarantee,
+                    easy support, a transparent policy, or another
+                    legitimate risk-reversal mechanism.
+                  </p>
+
+                  <div class="example">
+                    <strong>Example:</strong>
+                    <p>
+                      “Try it for 60 days. If you follow the program and it
+                      isn't a fit, contact us and we'll make it right according
+                      to our guarantee.”
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="principle">
+                <div class="num">04</div>
+
+                <div>
+                  <small>Part 04 · Reason To Act</small>
+
+                  <h3>Give the buyer a reason to buy now.</h3>
+
+                  <p>
+                    A strong offer creates urgency without fake scarcity.
+                    Use a genuine bonus, deadline, seasonal reason,
+                    limited batch, free shipping window, or another
+                    real reason for immediate action.
+                  </p>
+
+                  <div class="example">
+                    <strong>Example:</strong>
+                    <p>
+                      “Order this week and get the starter bundle plus
+                      free delivery.”
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+              <article class="principle">
+                <div class="num">05</div>
+
+                <div>
+                  <small>Build The Offer Stack</small>
+
+                  <h3>Increase perceived value before increasing discount.</h3>
+
+                  <p>
+                    Don't default to “20% OFF.” Stack valuable components:
+                    the core product, bundle quantity, bonus, convenience,
+                    guarantee, and a clear reason to act. The goal is a better
+                    deal — not simply a cheaper product.
+                  </p>
+
+                  <div class="example">
+                    <strong>Simple stack:</strong>
+                    <p>
+                      Best-selling product + quantity/bundle + useful bonus +
+                      risk reversal + real urgency.
+                    </p>
+                  </div>
+                </div>
+              </article>
+
+            </div>
+
+            <div class="formula-wrap">
+              <div class="formula-card">
+                <div class="eyebrow">The Iron Offer Formula</div>
+
+                <h3>Value + Time + Safety + Reason To Act</h3>
+
+                <p>
+                  Build the offer first. Then write the ad around the offer.
+                  Your creative gets much easier when the customer has a
+                  compelling reason to buy.
+                </p>
+
+                <div class="formula">
+                  <span>Specific Value</span>
+                  <strong>+</strong>
+                  <span>Timeframe</span>
+                  <strong>+</strong>
+                  <span>Risk Reversal</span>
+                  <strong>+</strong>
+                  <span>Real Urgency</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section class="mistakes">
+          <div class="container">
+            <div class="mistakes-header">
+              <div class="eyebrow">What To Avoid</div>
+
+              <h2>Three “offers” that usually make the decision harder.</h2>
+
+              <p>
+                Your goal is not to make your discount bigger.
+                Your goal is to make the purchase easier to justify.
+              </p>
+            </div>
+
+            <div class="mistake-grid">
+
+              <div class="mistake-card">
+                <span>Bad Offer #1</span>
+                <h3>“Buy now.”</h3>
+                <p>
+                  It's a CTA, not an offer. It doesn't explain what makes
+                  the purchase valuable or different.
+                </p>
+              </div>
+
+              <div class="mistake-card">
+                <span>Bad Offer #2</span>
+                <h3>“20% OFF EVERYTHING.”</h3>
+                <p>
+                  A blanket discount can reduce perceived value without
+                  giving the customer a stronger outcome or experience.
+                </p>
+              </div>
+
+              <div class="mistake-card">
+                <span>Bad Offer #3</span>
+                <h3>“Best quality. Best price.”</h3>
+                <p>
+                  Generic claims are hard to believe.
+                  Make the value concrete and connected to the buyer's problem.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <section class="cta">
+          <div class="container">
+            <div class="eyebrow">Put It Into Practice</div>
+
+            <h2>
+              Your offer should make the ad easier to write — and the purchase easier to make.
+            </h2>
+
+            <p>
+              I help ecommerce brands in Lebanon and the Middle East build
+              performance-driven offers, creatives, paid acquisition systems,
+              and product-page messaging that work together.
+            </p>
+
+            <a
+              href="https://wa.me/96176943287"
+              class="cta-button"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Talk About Your Brand →
+            </a>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="lock-overlay" aria-hidden="true">
+        <div class="lock-message">
+          <div class="lock-icon">🔒</div>
+          <h3>Iron Offer Locked</h3>
+          <p>
+            Fill in the 6 questions above to unlock the full framework,
+            examples, formula, and common mistakes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>© 2026 Issam Scales</div>
+      <div>Performance Marketing × Creative Strategy</div>
+    </div>
+  </footer>
+
+  <script>
+    const form = document.getElementById("leadForm");
+    const lockedContent = document.getElementById("lockedContent");
+    const errorMessage = document.getElementById("formError");
+    const submitButton = form.querySelector(".submit-btn");
+
+    const GOOGLE_SCRIPT_URL =
+      "https://script.google.com/macros/s/AKfycbx13XxG9Nw2og5Iqxy0OfBTNY5dCAU97BukF8YGTCmvGXkPj_omqrTUydbxgpIVWmT2/exec";
+
+    form.addEventListener("submit", async function (event) {
+      event.preventDefault();
+
+      if (!form.checkValidity()) {
+        errorMessage.textContent =
+          "Please complete all required fields before continuing.";
+        errorMessage.style.display = "block";
+        form.reportValidity();
+        return;
+      }
+
+      errorMessage.style.display = "none";
+      submitButton.disabled = true;
+      submitButton.textContent = "Unlocking...";
+
+      const leadData = {
+        name: document.getElementById("name").value.trim(),
+        phone: document.getElementById("phone").value.trim(),
+        website: document.getElementById("website").value.trim(),
+        adSpend: document.getElementById("adSpend").value,
+        videoContent:
+          document.querySelector('input[name="videoContent"]:checked')?.value || "",
+        revenue: document.getElementById("revenue").value,
+        source: "Iron Offer Lead Magnet",
+        submittedAt: new Date().toISOString()
+      };
+
+      try {
+        /*
+          The Apps Script endpoint receives the lead as JSON.
+          "no-cors" is intentional for a Google Apps Script web app.
+          The browser cannot read the response body, but the POST is sent.
+        */
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(leadData)
+        });
+
+        /*
+          Give the request a brief moment to leave the browser before
+          changing the page state.
+        */
+        setTimeout(() => {
+          document.querySelector(".form-section").style.display = "none";
+          lockedContent.classList.add("unlocked");
+
+          document.getElementById("ironOffer").scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+        }, 250);
+
+      } catch (error) {
+        console.error("Submission error:", error);
+
+        errorMessage.textContent =
+          "We couldn't submit your information. Please try again.";
+        errorMessage.style.display = "block";
+
+        submitButton.disabled = false;
+        submitButton.textContent = "Unlock The Iron Offer →";
+      }
+    });
+  </script>
+</body>
+</html>
