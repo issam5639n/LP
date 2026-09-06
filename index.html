@@ -483,6 +483,104 @@ src="https://www.facebook.com/tr?id=1615313209774370&ev=PageView&noscript=1"
     
     .yes .fit-icon { color: var(--green); }
     .no .fit-icon { color: var(--orange); }
+
+    /* FAQ */
+.faq {
+  padding: 72px 0;
+  border-top: 1px solid var(--border);
+}
+
+.faq h2 {
+  font-size: clamp(28px, 4.5vw, 44px);
+  margin-bottom: 12px;
+}
+
+.faq-lead {
+  color: var(--muted);
+  max-width: 600px;
+  margin-bottom: 40px;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 800px;
+}
+
+.faq-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  background: transparent;
+  color: var(--text);
+  border: none;
+  padding: 22px 24px;
+  text-align: left;
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  letter-spacing: .01em;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.faq-question:hover {
+  color: var(--orange);
+}
+
+.faq-icon {
+  font-family: 'Inter', sans-serif;
+  font-size: 24px;
+  color: var(--orange);
+  transition: transform .25s ease;
+  flex-shrink: 0;
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease, padding .3s ease;
+  padding: 0 24px;
+}
+
+.faq-answer p {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+  padding-bottom: 22px;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 300px;
+}
+
+.faq-item.active .faq-icon {
+  transform: rotate(45deg);
+}
+
+@media (max-width: 600px) {
+  .faq {
+    padding: 56px 0;
+  }
+
+  .faq-question {
+    padding: 18px 18px;
+    font-size: 16px;
+  }
+
+  .faq-answer {
+    padding: 0 18px;
+  }
+}
+
   </style>
 
   <!-- Meta Pixel Code -->
@@ -802,6 +900,141 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
   </div>
 </section>
 
+<section class="faq">
+  <div class="container">
+
+    <p class="section-label">FAQ</p>
+
+    <h2>Frequently Asked Questions</h2>
+
+    <p class="faq-lead">
+      Still have questions? Here are the answers to the things most eCommerce brands ask before getting started.
+    </p>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What exactly do you do for my brand?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            I manage your Meta ads, build your direct-response image ads and
+            develop the creative strategy.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What type of brands do you work with?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            I work with eCommerce brands selling physical products that already
+            have product-market validation making minimum $5,000/month and want to scale their revenue through
+            Meta advertising.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How much should I be spending on ads?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            I generally look for brands that are ready to invest at least
+            $900/month in Meta ad spend. Your exact budget depends on your
+            margins, average order value, and growth goals.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How long does it take to see results?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Every brand is different. The first phase is focused on auditing,
+            rebuilding the account, and testing creative concepts. Once we identify
+            winning concepts, we move into systematic scaling.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Do I need to provide the creatives?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            No. I personally create the image ads and provide the creative direction.
+            For video content, having a content creator, agency, or someone on your
+            team who can produce footage is helpful, but it isn't required for the
+            image-ad system.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Do you require a long-term contract?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            No. There are no long-term contracts. The goal is to build a system that
+            produces results and earns the right to continue working together.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>What is the 60-Day Safety Net?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            If we don't successfully scale your brand's revenue using the BEYOND
+            Protocol within the first 60 days, I continue working for free until we
+            do, plus I return the money you paid.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>How do I know if we're a good fit?</span>
+          <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            The best place to start is the free strategy call. We'll look at your
+            current numbers, identify what's holding you back, and determine
+            whether the BEYOND Protocol makes sense for your brand.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 48px;">
+      <button class="btn-primary open-modal">
+        Book My Free Strategy Call →
+      </button>
+    </div>
+
+  </div>
+</section>
+  
 <link rel="icon" type="image/png" href="IS.png">
   
 <div class="modal-overlay" id="modalOverlay">
