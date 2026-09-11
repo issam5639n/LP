@@ -914,7 +914,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
     <div class="faq-list">
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>What exactly do you do for my brand?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -927,7 +927,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>What type of brands do you work with?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -941,7 +941,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>How much should I be spending on ads?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -955,7 +955,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>How long does it take to see results?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -969,7 +969,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>Do I need to provide the creatives?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -984,7 +984,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>Do you require a long-term contract?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -997,7 +997,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>What is the 60-Day Safety Net?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -1011,7 +1011,7 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       </div>
 
       <div class="faq-item">
-        <button class="faq-question">
+        <button type="button" class="faq-question">
           <span>How do I know if we're a good fit?</span>
           <span class="faq-icon">+</span>
         </button>
@@ -1034,6 +1034,28 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
 
   </div>
 </section>
+
+<script>
+  document.querySelectorAll('.faq-question').forEach(function(question) {
+
+    question.addEventListener('click', function() {
+
+      const faqItem = this.closest('.faq-item');
+
+      // Close other FAQ items
+      document.querySelectorAll('.faq-item').forEach(function(item) {
+        if (item !== faqItem) {
+          item.classList.remove('active');
+        }
+      });
+
+      // Toggle the clicked FAQ
+      faqItem.classList.toggle('active');
+
+    });
+
+  });
+</script>
   
 <link rel="icon" type="image/png" href="IS.png">
   
