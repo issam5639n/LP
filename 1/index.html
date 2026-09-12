@@ -136,26 +136,31 @@ src="https://www.facebook.com/tr?id=1047770464647750&ev=PageView&noscript=1"
       This is the image that is revealed behind
       the bill when it tears.
     */
-    .tear-background{
-      position:absolute;
-      inset:0;
-      z-index:1;
-      overflow:hidden;
-      background:var(--white);
-      opacity:0;
-      pointer-events:none;
-      will-change:opacity;
-    }
+   .tear-background{
+  position:absolute;
+  width:min(934px, 90vw);
+  aspect-ratio:934 / 676;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  z-index:1;
+  overflow:hidden;
+  background:var(--white);
+  opacity:0;
+  pointer-events:none;
+  will-change:opacity;
+  border-radius:0;
+}
 
-    .tear-background img{
-      position:absolute;
-      inset:0;
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      transform:scale(1.03);
-    }
+.tear-background img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transform:scale(1.03);
+}
 
     .money-hint{
       position:absolute;
