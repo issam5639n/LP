@@ -559,6 +559,14 @@
 }
 @media(max-width:440px){.hero-constellation{height:310px}.constellation-caption{font-size:8px;bottom:2px}.constellation-caption span+span{font-size:7px}}
 @media(prefers-reduced-motion:reduce){.hero .status-dot{animation:none!important;opacity:1;transform:none}.hero .status-dot:after{animation:none!important;opacity:.35;transform:none}}
+
+/* The trail is above section backgrounds and underneath the opaque proof card. */
+.constellation-trail{position:fixed;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
+.hero-copy,.hero-constellation,.hero .hero-bottom{position:relative;z-index:3}
+.hero-case .hero-proof-shell,.hero-case-grid>.reveal{position:relative;z-index:3}
+@media(prefers-reduced-motion:reduce){.constellation-trail{display:none}}
+
+.hero-case .text-link{background:var(--paper)}
 </style></head><body>
 <script>
 !function(f,b,e,v,n,t,s)
@@ -1147,6 +1155,19 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
   const palette=['#f4f0ff','#ffd43b','#a373ff','#49ceb6','#82c3ee','#d48ddd'];
   const caption=stage.querySelector('.constellation-caption');
   const header=document.querySelector('header');
+  const caseSection=document.querySelector('.hero-case');
+  const caseCard=caseSection?.querySelector('.hero-proof');
+  if(!caseCard)return;
+  // A viewport canvas crosses the hero boundary; the opaque case card sits above it.
+  const trailCanvas=document.createElement('canvas');
+  trailCanvas.className='constellation-trail';trailCanvas.setAttribute('aria-hidden','true');
+  document.body.append(trailCanvas);
+  const trailContext=trailCanvas.getContext('2d');
+  if(!trailContext)return;
+  const trailGroups=Array.from({length:30},()=>[]);
+  const smooth=x=>x*x*(3-2*x);
+  let stageVisible=false,caseVisible=false,bounds;
+  function measureBounds(){bounds={stage:stage.getBoundingClientRect(),card:caseCard.getBoundingClientRect()}}
   let seed=7391;
   const random=()=>{seed=(seed*16807)%2147483647;return(seed-1)/2147483646};
   const particles=[];
@@ -1234,22 +1255,26 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
   const clamp=x=>Math.max(0,Math.min(1,x));
   const token=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--constellation-response'))||150;
   let width=0,height=0,pixelRatio=1,visible=false,heroVisible=false,frame=0,last=0,measure=true,progress=0,target=0,clock=0;
-  function triangle(x,y,size,angle){
+  function triangle(x,y,size,angle,ctx=context){
     // Two trig calls per glyph; the other vertices rotate through fixed 120-degree bases.
     const co=Math.cos(angle)*size,si=Math.sin(angle)*size;
-    context.moveTo(x+co,y+si);
-    context.lineTo(x-.5*co-.866025*si,y-.5*si+.866025*co);
-    context.lineTo(x-.5*co+.866025*si,y-.5*si-.866025*co);
-    context.closePath();
+    ctx.moveTo(x+co,y+si);
+    ctx.lineTo(x-.5*co-.866025*si,y-.5*si+.866025*co);
+    ctx.lineTo(x-.5*co+.866025*si,y-.5*si-.866025*co);
+    ctx.closePath();
   }
   function draw(time,still=false){
     context.clearRect(0,0,width,height);
+    trailContext.clearRect(0,0,innerWidth,innerHeight);
+    if(!bounds)measureBounds();
+    trailGroups.forEach(group=>group.length=0);
     const mobile=width<430;
     const scale=Math.min(width*.47,height*.48),cx=width*.5,cy=height*.46;
     const scrollProgress=still?0:progress;
-    const spread=Math.pow(scrollProgress,1.65);
-    const fade=1-scrollProgress*scrollProgress*(3-2*scrollProgress);
-    const rotation=-.38+(still?0:Math.sin(time*.0003)*.085+scrollProgress*.55);
+    const spread=0;
+    const departure=smooth(clamp(scrollProgress/.24));
+    const fade=1-departure;
+    const rotation=-.38+(still?0:Math.sin(time*.0003)*.085+scrollProgress*.12);
     const co=Math.cos(rotation),si=Math.sin(rotation),tilt=-.035;
     const pitch=-.12+(still?0:Math.sin(time*.00023)*.035),cp=Math.cos(pitch),sp=Math.sin(pitch);
     const breath=still?1:1+Math.sin(time*.00075)*.018;
@@ -1261,7 +1286,7 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
       const ry=y*cp-rz*sp,depth=y*sp+rz*cp;
       const perspective=3.6/(3.6-depth);
       return {x:cx+(rx*Math.cos(tilt)-ry*Math.sin(tilt))*scale*perspective*breath+swayX,
-        y:cy+(rx*Math.sin(tilt)+ry*Math.cos(tilt))*scale*perspective*breath+swayY-scrollProgress*height*.035,
+        y:cy+(rx*Math.sin(tilt)+ry*Math.cos(tilt))*scale*perspective*breath+swayY,
         depth,perspective};
     }
     // Fixed upper-left key light and a violet rim; no expensive per-particle blur.
@@ -1287,8 +1312,21 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
       const light=Math.max(0,Math.min(1,.68-p.x*.12-p.y*.22+p.z*.30));
       const lit=p.back?0:Math.min(4,Math.floor(light*3)+(p.brightness===2?1:0));
       const bucket=p.color*5+lit;
-      groups[bucket].push([point.x+drift+shakeX,point.y+drift*.7+shakeY,
-        p.size*(mobile?.86:1)*point.perspective,p.angle+(still?0:time*.000055+Math.sin(time*.0015+p.phase)*.08)]);
+      const angle=p.angle+(still?0:time*.000055+Math.sin(time*.0015+p.phase)*.08);
+      const size=p.size*(mobile?.86:1)*point.perspective;
+      groups[bucket].push([point.x+drift+shakeX,point.y+drift*.7+shakeY,size,angle]);
+      if(!still&&scrollProgress>0&&scrollProgress<1){
+        const delay=(.5-p.y*.3)*.10;
+        const flight=clamp((scrollProgress-delay)/(1-delay));
+        const travel=smooth(flight),arc=Math.sin(flight*Math.PI);
+        const originX=bounds.stage.left+point.x,originY=bounds.stage.top+point.y;
+        const landingX=bounds.card.left+bounds.card.width*(.22+.56*(.5+.5*Math.sin(p.phase*2.3)));
+        const landingY=bounds.card.top+Math.min(bounds.card.height*.48,70+(.5+.5*Math.cos(p.phase))*bounds.card.height*.24);
+        const px=originX+(landingX-originX)*travel+Math.sin(p.phase)*width*.13*arc;
+        const py=originY+(landingY-originY)*travel+height*.45*arc;
+        const tumble=angle+flight*(p.scatterX*.9);
+        trailGroups[bucket].push([px+shakeX,py+shakeY,size*(1-flight*.16),tumble]);
+      }
     }
     for(let i=0;i<groups.length;i++){
       if(!groups[i].length)continue;
@@ -1306,6 +1344,17 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
         triangle(p.x*width+drift,p.y*(height-30)+drift,p.size,p.angle);
       });context.strokeStyle=palette[color];context.globalAlpha=.18*fade;context.lineWidth=.6;context.stroke();
     }
+    // Draw the falling glyphs below the case card's stacking layer; DOM occlusion
+    // hides each glyph naturally as it enters the rounded square.
+    const trailOpacity=departure*(1-smooth(clamp((scrollProgress-.94)/.06)));
+    for(let i=0;i<trailGroups.length;i++){
+      if(!trailGroups[i].length)continue;
+      trailContext.beginPath();trailGroups[i].forEach(p=>triangle(...p,trailContext));
+      trailContext.strokeStyle=palette[Math.floor(i/5)];
+      trailContext.globalAlpha=[.09,.32,.57,.82,1][i%5]*trailOpacity;
+      trailContext.lineWidth=[.5,.65,.8,.9,1][i%5];trailContext.stroke();
+    }
+    trailContext.globalAlpha=1;
     context.globalAlpha=1;
   }
   function resize(){
@@ -1313,26 +1362,36 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
     pixelRatio=Math.min(devicePixelRatio||1,2.5);
     canvas.width=Math.round(width*pixelRatio);canvas.height=Math.round(height*pixelRatio);
     context.setTransform(pixelRatio,0,0,pixelRatio,0,0);
-    draw(clock,preference.matches);measure=true;request();
+    const trailRatio=Math.min(devicePixelRatio||1,1.5);
+    trailCanvas.width=Math.round(innerWidth*trailRatio);trailCanvas.height=Math.round(innerHeight*trailRatio);
+    trailContext.setTransform(trailRatio,0,0,trailRatio,0,0);
+    measureBounds();draw(clock,preference.matches);measure=true;request();
   }
   function updateDot(){hero.classList.toggle('hero-dot-running',heroVisible&&!document.hidden&&!preference.matches)}
   function animate(time){
     frame=0;
     if(!visible||document.hidden||preference.matches){last=0;stage.classList.remove('constellation-running');return}
-    const dt=last?Math.min(48,time-last):16.67;last=time;clock+=dt;
+    const elapsed=last?Math.min(160,time-last):16.67;last=time;clock+=Math.min(48,elapsed);
     if(measure){
       // Use the illustration's position so mobile scrolling reveals the intact brain first.
-      const r=stage.getBoundingClientRect();
+      measureBounds();const r=bounds.stage;
       const start=Math.min(Math.max((header?.offsetHeight||0)+64,innerHeight*.27),r.top+scrollY-18);
-      target=clamp((start-r.top)/Math.max(1,r.height*.78));
+      const startScroll=r.top+scrollY-start;
+      const endScroll=bounds.card.top+scrollY-(header?.offsetHeight||0)-Math.max(60,innerHeight*.10);
+      target=clamp((scrollY-startScroll)/Math.max(r.height*.78,endScroll-startScroll));
       measure=false;
     }
-    progress+=(target-progress)*(1-Math.exp(-dt/(token*.6)));
+    progress+=(target-progress)*(1-Math.exp(-elapsed/(token*.6)));
+    if(Math.abs(target-progress)<.0005)progress=target;
     draw(clock);stage.classList.add('constellation-running');
+    if(!stageVisible&&target===1&&progress>.9999){
+      trailContext.clearRect(0,0,innerWidth,innerHeight);last=0;
+      stage.classList.remove('constellation-running');return;
+    }
     frame=requestAnimationFrame(animate);
   }
   function request(){measure=true;if(visible&&!document.hidden&&!preference.matches&&!frame)frame=requestAnimationFrame(animate)}
-  function stop(){cancelAnimationFrame(frame);frame=0;last=0;stage.classList.remove('constellation-running')}
+  function stop(){cancelAnimationFrame(frame);frame=0;last=0;stage.classList.remove('constellation-running');trailContext.clearRect(0,0,innerWidth,innerHeight)}
   function updatePreference(){
     updateDot();
     if(preference.matches){stop();progress=target=0;draw(0,true)}else request();
@@ -1340,9 +1399,9 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
   stage.classList.add('constellation-ready');
   if('IntersectionObserver' in window){
     const observer=new IntersectionObserver(entries=>{
-      for(const entry of entries){if(entry.target===stage)visible=entry.isIntersecting;else heroVisible=entry.isIntersecting}
-      updateDot();if(visible)request();else stop();
-    });observer.observe(stage);observer.observe(hero);
+      for(const entry of entries){if(entry.target===stage)stageVisible=entry.isIntersecting;else if(entry.target===caseSection)caseVisible=entry.isIntersecting;else heroVisible=entry.isIntersecting}
+      visible=stageVisible||caseVisible;updateDot();if(visible)request();else stop();
+    });observer.observe(stage);observer.observe(hero);observer.observe(caseSection);
   }else{visible=heroVisible=true;updateDot()}
   if('ResizeObserver' in window)new ResizeObserver(resize).observe(stage);else addEventListener('resize',resize,{passive:true});
   addEventListener('scroll',request,{passive:true});
