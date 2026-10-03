@@ -521,7 +521,7 @@
 
 /* Canvas + vanilla RAF: one batched particle surface, no third-party dependencies.
    The illustration is decorative; focus remains on the CTA. Reduced motion is static. */
-:root{--motion-dot-cycle:2400ms;--constellation-response:150ms}
+:root{--motion-dot-cycle:2400ms;--constellation-response:220ms}
 .hero{background:#000;color:#fff;padding-top:68px;padding-bottom:38px}
 .hero-grid{grid-template-columns:1.12fr 1fr;gap:28px}
 .hero h1 em{color:#b9e6c8}
@@ -1143,7 +1143,141 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
   preference.addEventListener('change',()=>preference.matches?reset():request());
 })();
 
-// Canvas 2D + RAF batches the triangular constellation into one surface, no library.
+// Native WebGL draws all fine glyphs in one call per layer, with no library download.
+// Decorative canvases never receive focus. Reduced motion sends a static shader state.
+window.createBrainRenderer=(coreCanvas,trailCanvas,particles,palette,stage)=>{
+  const vertex=`
+precision highp float;
+attribute vec3 aPosition;
+attribute vec3 aNormal;
+attribute vec3 aColor;
+attribute vec2 aCorner;
+attribute vec3 aBary;
+attribute vec4 aMeta;
+uniform vec2 uViewport;
+uniform vec2 uStageSize;
+uniform vec2 uStageOrigin;
+uniform vec4 uCard;
+uniform float uTime;
+uniform float uProgress;
+uniform float uStill;
+uniform float uPass;
+varying vec3 vColor;
+varying vec3 vBary;
+varying float vAlpha;
+float smooth01(float t){return t*t*(3.0-2.0*t);}
+void main(){
+  float t=uTime*(1.0-uStill);
+  float yaw=-.38+sin(t*.30)*.085+uProgress*.12;
+  float pitch=-.12+sin(t*.23)*.035;
+  float co=cos(yaw),si=sin(yaw),cp=cos(pitch),sp=sin(pitch);
+  vec3 p=vec3(aPosition.x*co+aPosition.z*si,aPosition.y,-aPosition.x*si+aPosition.z*co);
+  p=vec3(p.x,p.y*cp-p.z*sp,p.y*sp+p.z*cp);
+  vec3 n=vec3(aNormal.x*co+aNormal.z*si,aNormal.y,-aNormal.x*si+aNormal.z*co);
+  n=vec3(n.x,n.y*cp-n.z*sp,n.y*sp+n.z*cp);
+  float perspective=3.6/(3.6-p.z);
+  float scale=min(uStageSize.x*.47,uStageSize.y*.48);
+  float breath=1.0+sin(t*.75)*.011;
+  vec2 point=vec2(uStageSize.x*.5,uStageSize.y*.46)+
+    mat2(.999388,-.034993,.034993,.999388)*p.xy*scale*perspective*breath;
+  point+=vec2(sin(t*.36)*2.0,cos(t*.42)*1.5)*(1.0-uStill);
+  float phase=aMeta.x;
+  vec2 tremble=vec2(sin(t*2.2+phase),cos(t*1.8+phase*1.7))*.23*(1.0-uStill);
+  point+=tremble;
+  float departure=smooth01(clamp(uProgress/.24,0.0,1.0));
+  float angle=sin(t*1.15+phase)*.045+t*.022;
+  float flight=0.0;
+  float alpha=1.0-departure;
+  if(uPass>.5){
+    float delay=(.5-aPosition.y*.3)*.10;
+    flight=clamp((uProgress-delay)/(1.0-delay),0.0,1.0);
+    float travel=smooth01(flight),arc=sin(flight*3.14159265);
+    vec2 origin=uStageOrigin+point;
+    vec2 landing=vec2(uCard.x+uCard.z*(.22+.56*(.5+.5*sin(phase*2.3))),
+      uCard.y+min(uCard.w*.48,70.0+(.5+.5*cos(phase))*uCard.w*.24));
+    point=mix(origin,landing,travel)+vec2(sin(phase)*uStageSize.x*.13,uStageSize.y*.45)*arc;
+    angle+=flight*sin(phase)*1.2;
+    alpha=departure*(1.0-smooth01(clamp((uProgress-.94)/.06,0.0,1.0)))*(1.0-uStill);
+  }
+  float light=.16+.84*max(0.0,dot(normalize(n),normalize(vec3(-.38,-.56,1.0))));
+  float specular=pow(max(0.0,dot(normalize(n),normalize(vec3(-.18,-.28,1.0)))),18.0)*.18;
+  float depthAlpha=aMeta.w<0.0?.11:clamp(.25+light*.65+aMeta.w*.065,0.0,1.0);
+  vAlpha=alpha*depthAlpha;
+  vColor=aColor*(.58+light*.54)+vec3(specular);
+  vBary=aBary;
+  vec2 corner=mat2(cos(angle),sin(angle),-sin(angle),cos(angle))*aCorner;
+  corner.x*=mix(.70,1.0,abs(normalize(n).z));
+  point+=corner*aMeta.z*perspective*(1.0-flight*.16);
+  gl_Position=vec4(point.x/uViewport.x*2.0-1.0,1.0-point.y/uViewport.y*2.0,0.0,1.0);
+}`;
+  const fragment=`
+#extension GL_OES_standard_derivatives : enable
+precision mediump float;
+uniform float uPixelRatio;
+varying vec3 vColor;
+varying vec3 vBary;
+varying float vAlpha;
+void main(){
+  float edge=min(vBary.x,min(vBary.y,vBary.z));
+  float width=max(fwidth(edge)*uPixelRatio*.24,.0001);
+  float outline=1.0-smoothstep(width,width*1.7,edge);
+  float alpha=vAlpha*mix(.035,1.0,outline);
+  gl_FragColor=vec4(vColor*alpha,alpha);
+}`;
+  const data=new Float32Array(particles.length*3*18);
+  let offset=0;
+  for(const p of particles){
+    const rgb=palette[p.color].match(/[a-f\d]{2}/gi).map(c=>parseInt(c,16)/255);
+    for(let k=0;k<3;k++){
+      const angle=p.angle+k*Math.PI*2/3;
+      data.set([p.x,p.y,p.z,p.nx||0,p.ny||0,p.nz||1,...rgb,Math.cos(angle),Math.sin(angle),
+        k===0?1:0,k===1?1:0,k===2?1:0,p.phase,p.angle,p.size,p.back?-1:p.brightness],offset);offset+=18;
+    }
+  }
+  const layers=[];
+  function createLayer(original,pass){
+    const canvas=original.cloneNode(false);
+    const gl=canvas.getContext('webgl',{alpha:true,antialias:true,premultipliedAlpha:true,preserveDrawingBuffer:true,depth:false,stencil:false});
+    if(!gl||!gl.getExtension('OES_standard_derivatives'))throw new Error('WebGL unavailable');
+    function shader(type,source){const s=gl.createShader(type);gl.shaderSource(s,source);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s}
+    const program=gl.createProgram();gl.attachShader(program,shader(gl.VERTEX_SHADER,vertex));gl.attachShader(program,shader(gl.FRAGMENT_SHADER,fragment));gl.linkProgram(program);
+    if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program));
+    gl.useProgram(program);
+    const buffer=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buffer);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);
+    let column=0;
+    for(const [name,size] of [['aPosition',3],['aNormal',3],['aColor',3],['aCorner',2],['aBary',3],['aMeta',4]]){
+      const location=gl.getAttribLocation(program,name);if(location>=0){gl.enableVertexAttribArray(location);gl.vertexAttribPointer(location,size,gl.FLOAT,false,72,column*4)}column+=size;
+    }
+    const uniforms={};for(const name of ['uViewport','uStageSize','uStageOrigin','uCard','uTime','uProgress','uStill','uPass','uPixelRatio'])uniforms[name]=gl.getUniformLocation(program,name);
+    gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);gl.clearColor(0,0,0,0);
+    const layer={canvas,original,gl,uniforms,pass,ratio:1};layers.push(layer);return layer;
+  }
+  try{createLayer(coreCanvas,0);createLayer(trailCanvas,1)}catch(error){
+    layers.forEach(l=>l.gl.getExtension('WEBGL_lose_context')?.loseContext());return null;
+  }
+  const renderer={active:true,
+    resize(width,height){
+      for(const l of layers){l.ratio=Math.min(devicePixelRatio||1,l.pass?1.75:2.5);const w=l.pass?innerWidth:width,h=l.pass?innerHeight:height;
+        l.canvas.width=Math.round(w*l.ratio);l.canvas.height=Math.round(h*l.ratio);l.gl.viewport(0,0,l.canvas.width,l.canvas.height);
+        l.gl.uniform2f(l.uniforms.uViewport,w,h);l.gl.uniform1f(l.uniforms.uPixelRatio,l.ratio);}
+    },
+    draw(time,still,progress,bounds,width,height){
+      for(const l of layers){const gl=l.gl,u=l.uniforms;gl.clear(gl.COLOR_BUFFER_BIT);
+        if((l.pass&&(still||progress===0||progress===1))||(!l.pass&&progress>=.24))continue;
+        gl.uniform2f(u.uStageSize,width,height);gl.uniform2f(u.uStageOrigin,bounds.stage.left,bounds.stage.top);
+        gl.uniform4f(u.uCard,bounds.card.left,bounds.card.top,bounds.card.width,bounds.card.height);
+        gl.uniform1f(u.uTime,time/1000);gl.uniform1f(u.uProgress,still?0:progress);gl.uniform1f(u.uStill,still?1:0);gl.uniform1f(u.uPass,l.pass);
+        gl.drawArrays(gl.TRIANGLES,0,particles.length*3);
+      }
+    },
+    clearTrail(){layers[1].gl.clear(layers[1].gl.COLOR_BUFFER_BIT)}
+  };
+  function fallback(event){event.preventDefault();if(!renderer.active)return;renderer.active=false;for(const l of layers)l.canvas.replaceWith(l.original);stage.dataset.renderer='canvas2d'}
+  for(const l of layers){l.canvas.addEventListener('webglcontextlost',fallback);l.original.replaceWith(l.canvas)}
+  stage.dataset.renderer='webgl';return renderer;
+};
+
+// Native WebGL + RAF keeps fine triangles on the GPU; Canvas 2D is a compatibility fallback.
 // Focus stays on links/CTAs; reduced motion renders one still frame, including the green dot.
 (() => {
   const stage=document.querySelector('.hero-constellation');
@@ -1212,13 +1346,14 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
     return .58*Math.sqrt(Math.min(1,Math.sqrt(distance)/88));
   }
   function vertex(x,y,z=depthAt(x,y)){return {x:(x-274)/250,y:(y-225)/250,z}}
-  function particle(x,y,brightness=0,back=false,colorOverride=null){
+  function particle(x,y,brightness=0,back=false,colorOverride=null,reliefOverride=null){
     // Color bands follow the folded surface, rather than random confetti distribution.
     const field=Math.sin(x*.032+Math.sin(y*.034)*2)+.35*Math.cos(y*.053-x*.017);
     const color=colorOverride??(field>.65?1:field>-.05?0:field>-.65?3:2);
-    const relief=brightness===2?.075:0;
+    const relief=reliefOverride??(brightness===2?.09:0);
+    const nx=(x-274)/250,ny=(y-185)/170,nz=Math.sqrt(Math.max(.08,1-nx*nx*.45-ny*ny*.45));
     particles.push({...vertex(x,y,(back?-1:1)*(depthAt(x,y)+relief)),
-      color,brightness,back,angle:random()*Math.PI*2,size:brightness===2?1.5+random()*1.15:1.25+random()*1.05,
+      color,brightness,back,nx,ny,nz:back?-nz:nz,angle:random()*Math.PI*2,size:brightness===2?.70+random()*.62:.60+random()*.60,
       phase:random()*Math.PI*2,scatterX:(random()-.5)*3.1,scatterY:(random()-.5)*2.8,scatterZ:(random()-.5)*2});
   }
   function trace(d,spacing,brightness,index=0,edge=false){
@@ -1228,25 +1363,29 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
       const dx=next.x-prev.x,dy=next.y-prev.y,length=Math.hypot(dx,dy)||1;
       ridgePoints.push(point);
       // Dense ribbons of individual glyphs articulate each raised gyrus.
-      for(const offset of (edge?[-2,2]:[-5,0,5])){
-        const x=point.x-dy/length*offset+(random()-.5)*2.4;
-        const y=point.y+dx/length*offset+(random()-.5)*2.4;
+      for(const offset of (edge?[-2.5,0,2.5]:[-9,-6,-3,0,3,6,9])){
+        const x=point.x-dy/length*offset+(random()-.5)*1.3;
+        const y=point.y+dx/length*offset+(random()-.5)*1.3;
         const surfaceBand=Math.sin(x*.032+Math.sin(y*.034)*2)+.35*Math.cos(y*.053-x*.017);
         const accent=surfaceBand>.65?1:surfaceBand>-.05?0:surfaceBand>-.65?3:2;
-        particle(x,y,brightness,false,offset===0&&random()<.4?0:accent);
+        particle(x,y,brightness,false,offset===0&&random()<.32?0:accent,edge?.02:.15*Math.sqrt(Math.max(.08,1-(offset/11)**2)));
+        const p=particles[particles.length-1];p.nx+=(-dy/length)*(offset/11)*.45;p.ny+=(dx/length)*(offset/11)*.45;
         if(edge)particles[particles.length-1].size*=.72;
       }
     }
   }
-  [cerebrum,cerebellum,stem].forEach((d,i)=>trace(d,3,2,i,true));
-  folds.forEach((d,i)=>trace(d,4.2,2,i));
+  [cerebrum,cerebellum,stem].forEach((d,i)=>trace(d,1.85,2,i,true));
+  folds.forEach((d,i)=>trace(d,2.45,2,i));
   let fillCount=0;
-  for(let attempt=0;fillCount<1450&&attempt<15000;attempt++){
+  for(let attempt=0;fillCount<3500&&attempt<45000;attempt++){
     const x=40+random()*465,y=44+random()*356;
     if(!context.isPointInPath(silhouette,x,y))continue;
-    if(ridgePoints.some(p=>(p.x-x)**2+(p.y-y)**2<92))continue;
-    particle(x,y,random()<.3?1:0);if(fillCount%5===0)particle(x,y,0,true);fillCount++;
+    if(ridgePoints.some(p=>(p.x-x)**2+(p.y-y)**2<128))continue;
+    particle(x,y,random()<.3?1:0);if(fillCount%10===0)particle(x,y,0,true);fillCount++;
   }
+  stage.dataset.particleCount=String(particles.length);
+  const gpuRenderer=window.createBrainRenderer?.(canvas,trailCanvas,particles,palette,stage);
+  if(!gpuRenderer)stage.dataset.renderer='canvas2d';
   // A single softly shaded skin keeps the volume legible without a heavy mesh pass.
   [cerebrum,cerebellum,stem].forEach(d=>skinContours.push(sample(d,5).map(p=>vertex(p.x,p.y,.02))));
   const ambient=Array.from({length:64},()=>({x:random(),y:random(),angle:random()*Math.PI*2,size:.9+random()*1.7,color:Math.floor(random()*6),phase:random()*Math.PI*2}));
@@ -1254,7 +1393,7 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
   const groups=Array.from({length:30},()=>[]);
   const clamp=x=>Math.max(0,Math.min(1,x));
   const token=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--constellation-response'))||150;
-  let width=0,height=0,pixelRatio=1,visible=false,heroVisible=false,frame=0,last=0,measure=true,progress=0,target=0,clock=0;
+  let width=0,height=0,pixelRatio=1,visible=false,heroVisible=false,frame=0,last=0,measure=true,progress=0,target=0,clock=0,viewScroll=scrollY;
   function triangle(x,y,size,angle,ctx=context){
     // Two trig calls per glyph; the other vertices rotate through fixed 120-degree bases.
     const co=Math.cos(angle)*size,si=Math.sin(angle)*size;
@@ -1264,6 +1403,14 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
     ctx.closePath();
   }
   function draw(time,still=false){
+    if(!bounds)measureBounds();
+    const departureForCamera=smooth(clamp((still?0:progress)/.24));
+    const lag=(scrollY-viewScroll)*departureForCamera;
+    const drawBounds={stage:{...bounds.stage,left:bounds.stage.left,top:bounds.stage.top+lag},card:{...bounds.card,left:bounds.card.left,top:bounds.card.top+lag,width:bounds.card.width,height:bounds.card.height}};
+    if(gpuRenderer?.active){
+      if(caption)caption.style.opacity=String(1-departureForCamera);
+      gpuRenderer.draw(time,still,progress,drawBounds,width,height);return;
+    }
     context.clearRect(0,0,width,height);
     trailContext.clearRect(0,0,innerWidth,innerHeight);
     if(!bounds)measureBounds();
@@ -1303,6 +1450,7 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
     context.fillStyle=surfaceLight;context.globalAlpha=.10*fade*(1-spread)**2;context.fill();
     groups.forEach(group=>group.length=0);
     for(let i=0;i<particles.length;i++){
+      if(!still&&i%2===0)continue;
       if(mobile&&particles[i].back&&i%2===0)continue;
       const p=particles[i];
       const point=project(p.x+p.scatterX*spread*.6,p.y+p.scatterY*spread*.6,p.z+p.scatterZ*spread*.4);
@@ -1319,7 +1467,7 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
         const delay=(.5-p.y*.3)*.10;
         const flight=clamp((scrollProgress-delay)/(1-delay));
         const travel=smooth(flight),arc=Math.sin(flight*Math.PI);
-        const originX=bounds.stage.left+point.x,originY=bounds.stage.top+point.y;
+        const originX=drawBounds.stage.left+point.x,originY=drawBounds.stage.top+point.y;
         const landingX=bounds.card.left+bounds.card.width*(.22+.56*(.5+.5*Math.sin(p.phase*2.3)));
         const landingY=bounds.card.top+Math.min(bounds.card.height*.48,70+(.5+.5*Math.cos(p.phase))*bounds.card.height*.24);
         const px=originX+(landingX-originX)*travel+Math.sin(p.phase)*width*.13*arc;
@@ -1365,6 +1513,7 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
     const trailRatio=Math.min(devicePixelRatio||1,1.5);
     trailCanvas.width=Math.round(innerWidth*trailRatio);trailCanvas.height=Math.round(innerHeight*trailRatio);
     trailContext.setTransform(trailRatio,0,0,trailRatio,0,0);
+    gpuRenderer?.active&&gpuRenderer.resize(width,height);
     measureBounds();draw(clock,preference.matches);measure=true;request();
   }
   function updateDot(){hero.classList.toggle('hero-dot-running',heroVisible&&!document.hidden&&!preference.matches)}
@@ -1381,20 +1530,23 @@ pageMotionPreference.addEventListener('change',()=>{if(pageMotionPreference.matc
       target=clamp((scrollY-startScroll)/Math.max(r.height*.78,endScroll-startScroll));
       measure=false;
     }
-    progress+=(target-progress)*(1-Math.exp(-elapsed/(token*.6)));
+    const blend=1-Math.exp(-elapsed/(token*.6));
+    progress+=(target-progress)*blend;
+    viewScroll+=(scrollY-viewScroll)*blend;
+    if(Math.abs(scrollY-viewScroll)<.05)viewScroll=scrollY;
     if(Math.abs(target-progress)<.0005)progress=target;
     draw(clock);stage.classList.add('constellation-running');
     if(!stageVisible&&target===1&&progress>.9999){
-      trailContext.clearRect(0,0,innerWidth,innerHeight);last=0;
+      trailContext.clearRect(0,0,innerWidth,innerHeight);gpuRenderer?.active&&gpuRenderer.clearTrail();last=0;
       stage.classList.remove('constellation-running');return;
     }
     frame=requestAnimationFrame(animate);
   }
   function request(){measure=true;if(visible&&!document.hidden&&!preference.matches&&!frame)frame=requestAnimationFrame(animate)}
-  function stop(){cancelAnimationFrame(frame);frame=0;last=0;stage.classList.remove('constellation-running');trailContext.clearRect(0,0,innerWidth,innerHeight)}
+  function stop(){cancelAnimationFrame(frame);frame=0;last=0;stage.classList.remove('constellation-running');trailContext.clearRect(0,0,innerWidth,innerHeight);gpuRenderer?.active&&gpuRenderer.clearTrail()}
   function updatePreference(){
     updateDot();
-    if(preference.matches){stop();progress=target=0;draw(0,true)}else request();
+    if(preference.matches){stop();progress=target=0;viewScroll=scrollY;draw(0,true)}else request();
   }
   stage.classList.add('constellation-ready');
   if('IntersectionObserver' in window){
